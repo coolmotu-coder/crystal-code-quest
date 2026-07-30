@@ -1,0 +1,147 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "opencode-go/kimi-k2.7-code",
+  "small_model": "opencode-go/deepseek-v4-flash",
+  "default_agent": "crystal-interface-builder",
+  "share": "disabled",
+  "subagent_depth": 1,
+  "instructions": [
+    "AGENTS.md",
+    "docs/crystal-code-quest-spec.md"
+  ],
+  "provider": {
+    "opencode-go": {
+      "whitelist": [
+        "kimi-k2.7-code",
+        "deepseek-v4-flash",
+        "qwen3.7-plus",
+        "deepseek-v4-pro"
+      ]
+    }
+  },
+  "permission": {
+    "external_directory": "deny",
+    "webfetch": "ask",
+    "websearch": "ask",
+    "bash": {
+      "*": "ask",
+      "sudo *": "deny",
+      "rm -rf *": "deny",
+      "git clean *": "deny",
+      "git reset --hard *": "deny",
+      "git push *": "deny",
+      "git status*": "allow",
+      "git diff*": "allow",
+      "git log*": "allow",
+      "git rev-parse*": "allow",
+      "git branch --show-current*": "allow",
+      "pnpm lint*": "allow",
+      "pnpm typecheck*": "allow",
+      "pnpm test*": "allow",
+      "pnpm build*": "allow",
+      "pnpm exec playwright*": "allow"
+    }
+  },
+  "agent": {
+    "crystal-interface-builder": {
+      "description": "Primary Phase 0 and Phase 1 implementation agent for the Crystal Code Quest interface. Use for repository setup, parent and child account experiences, mocked quest flows, tests, and Kind-ready packaging.",
+      "mode": "primary",
+      "model": "opencode-go/kimi-k2.7-code",
+      "temperature": 0.15,
+      "steps": 45,
+      "color": "primary",
+      "prompt": "You are the primary engineer for Crystal Code Quest. The product teaches Linus vibe coding by eventually building real features in The Crystal Adventure. For the current milestone, implement only Phase 0 and Phase 1 from crystal-code-quest-spec.md. Build a polished, interactive interface with separate Parent and Child Builder accounts, secure local sessions, seeded data, role protection, a complete mocked Super Jump quest, Parent prompt history, learning evidence, and an Imagination Journal. The Code Quest design is clean hacker-style; the colourful crystal world and robots appear only in The Crystal Adventure previews. The guide is a warm parent-like human mentor. Do not implement LLM calls, coding agents, game repository changes, arbitrary shell tools, or Phase 2. Inspect and plan before editing. Make small verified changes. Never invent paths or APIs. Never claim success without running format, lint, typecheck, tests, and build. Use subagents only at meaningful checkpoints, not for every edit. Stop after Phase 1 and request parent user testing.",
+      "permission": {
+        "edit": "allow",
+        "external_directory": "deny",
+        "task": {
+          "*": "deny",
+          "crystal-explorer": "allow",
+          "crystal-ui-reviewer": "allow",
+          "crystal-code-reviewer": "allow"
+        },
+        "bash": {
+          "*": "ask",
+          "sudo *": "deny",
+          "rm -rf *": "deny",
+          "git clean *": "deny",
+          "git reset --hard *": "deny",
+          "git push *": "deny",
+          "git status*": "allow",
+          "git diff*": "allow",
+          "git log*": "allow",
+          "git rev-parse*": "allow",
+          "pnpm lint*": "allow",
+          "pnpm typecheck*": "allow",
+          "pnpm test*": "allow",
+          "pnpm build*": "allow",
+          "pnpm exec playwright*": "allow"
+        }
+      }
+    },
+    "crystal-explorer": {
+      "description": "Fast read-only repository explorer. Use to locate current files, routes, contracts, tests, and patterns before planning changes.",
+      "mode": "subagent",
+      "model": "opencode-go/deepseek-v4-flash",
+      "temperature": 0.1,
+      "steps": 12,
+      "color": "secondary",
+      "prompt": "Explore only the current repository. Return exact paths and concise evidence. Locate relevant routes, components, contracts, tests, configuration, design tokens, and existing conventions. Do not edit files, access external directories, propose broad refactors, or run destructive commands.",
+      "permission": {
+        "edit": "deny",
+        "external_directory": "deny",
+        "webfetch": "deny",
+        "websearch": "deny",
+        "bash": {
+          "*": "deny",
+          "git status*": "allow",
+          "git diff*": "allow",
+          "git log*": "allow",
+          "git rev-parse*": "allow"
+        }
+      }
+    },
+    "crystal-ui-reviewer": {
+      "description": "Read-only interface reviewer for visual coherence, child usability, Parent usability, accessibility, responsive behaviour, and fidelity to the hacker-style design direction.",
+      "mode": "subagent",
+      "model": "opencode-go/qwen3.7-plus",
+      "temperature": 0.15,
+      "steps": 18,
+      "color": "accent",
+      "prompt": "Review the actual Crystal Code Quest UI implementation and available screenshots without modifying files. Confirm that Code Quest uses a clean hacker-style identity, the guide is human and parent-like, and robots plus colourful crystal-world visuals remain inside The Crystal Adventure previews. Evaluate child comprehension, Parent information value, prompt learning, Imagination Journal quality, interaction states, keyboard use, contrast, reduced motion, laptop layout, and iPad layout. Reject generic SaaS-dashboard composition, excessive animation, fake terminal output, and decorative clutter. Classify findings as critical, high, medium, low, or informational. Finish with ACCEPT or CHANGES_REQUIRED.",
+      "permission": {
+        "edit": "deny",
+        "external_directory": "deny",
+        "webfetch": "deny",
+        "websearch": "deny",
+        "bash": {
+          "*": "deny",
+          "git status*": "allow",
+          "git diff*": "allow",
+          "git log*": "allow"
+        }
+      }
+    },
+    "crystal-code-reviewer": {
+      "description": "Read-only reviewer for Phase 0 and Phase 1 code quality, account isolation, session handling, data validation, testing, maintainability, architecture, security, and phase-scope compliance.",
+      "mode": "subagent",
+      "model": "opencode-go/deepseek-v4-pro",
+      "temperature": 0.1,
+      "steps": 18,
+      "color": "warning",
+      "prompt": "Review the actual Git diff and test evidence without changing files. Check Parent and Child role isolation, secure local sessions, credential handling, server validation, seeded-data boundaries, prompt construction, quest-state transitions, accessibility tests, error paths, maintainability, unnecessary dependencies, architecture, security boundaries, and Kind packaging. Verify that no LLM, agent, game-repository modification, or Phase 2 work was introduced. Classify findings as critical, high, medium, low, or informational. Finish with ACCEPT or CHANGES_REQUIRED.",
+      "permission": {
+        "edit": "deny",
+        "external_directory": "deny",
+        "webfetch": "deny",
+        "websearch": "deny",
+        "bash": {
+          "*": "deny",
+          "git status*": "allow",
+          "git diff*": "allow",
+          "git log*": "allow"
+        }
+      }
+    }
+  }
+}
