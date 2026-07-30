@@ -37,21 +37,21 @@ Crystal Code Quest is designed for a single family running on a local home netwo
 
 ## Commands
 
-| Command | Purpose |
-|---|---|
-| `pnpm dev` | Start the development server |
-| `pnpm build` | Create a production build |
-| `pnpm start` | Start the production server |
-| `pnpm typecheck` | Run TypeScript type checking |
-| `pnpm lint` | Run ESLint |
-| `pnpm format` | Format code with Prettier |
-| `pnpm format:check` | Check formatting |
-| `pnpm test` | Run unit and component tests |
-| `pnpm e2e` | Run Playwright end-to-end tests |
-| `pnpm db:setup` | Interactive setup (session secret + accounts) |
-| `pnpm db:migrate` | Run database migrations |
-| `pnpm db:seed` | Seed demo quest data |
-| `pnpm db:reset` | Reset database and run setup again |
+| Command             | Purpose                                       |
+| ------------------- | --------------------------------------------- |
+| `pnpm dev`          | Start the development server                  |
+| `pnpm build`        | Create a production build                     |
+| `pnpm start`        | Start the production server                   |
+| `pnpm typecheck`    | Run TypeScript type checking                  |
+| `pnpm lint`         | Run ESLint                                    |
+| `pnpm format`       | Format code with Prettier                     |
+| `pnpm format:check` | Check formatting                              |
+| `pnpm test`         | Run unit and component tests                  |
+| `pnpm e2e`          | Run Playwright end-to-end tests               |
+| `pnpm db:setup`     | Interactive setup (session secret + accounts) |
+| `pnpm db:migrate`   | Run database migrations                       |
+| `pnpm db:seed`      | Seed demo quest data                          |
+| `pnpm db:reset`     | Reset database and run setup again            |
 
 ## Accounts
 
@@ -68,16 +68,32 @@ export IMAGE_TAG="crystal-code-quest:$(git rev-parse --short HEAD)"
 podman build -t "$IMAGE_TAG" .
 ```
 
+## Local Compose validation
+
+```bash
+export IMAGE_TAG="crystal-code-quest:$(git rev-parse --short HEAD)"
+podman compose up -d
+```
+
+Requires `.env.local` (created by `pnpm db:setup`) and a persistent named
+volume for the SQLite database.
+
 ## Kind deployment
+
+The existing local Podman-backed Kind cluster is named `ai-lab`. See
+`infrastructure/kind/README.md` for the full workflow.
 
 ```bash
 export IMAGE_TAG="crystal-code-quest:$(git rev-parse --short HEAD)"
 podman build -t "$IMAGE_TAG" .
-kind load docker-image "$IMAGE_TAG" --name <kind-cluster-name>
+kind load docker-image "$IMAGE_TAG" --name ai-lab
+kubectl create secret generic crystal-code-quest \
+  --from-literal=session-secret="$(grep '^SESSION_SECRET=' .env.local | cut -d '=' -f2)" \
+  --namespace crystal-code-quest
 kubectl apply -k infrastructure/kind
+kubectl rollout status deployment/crystal-code-quest -n crystal-code-quest
+kubectl port-forward -n crystal-code-quest svc/crystal-code-quest 3000:3000
 ```
-
-Replace `<kind-cluster-name>` with your actual local kind cluster name.
 
 ## Testing
 

@@ -135,7 +135,7 @@ CREATE TABLE IF NOT EXISTS learning_stages (
   key TEXT NOT NULL UNIQUE,
   name TEXT NOT NULL,
   description TEXT NOT NULL,
-  order INTEGER NOT NULL UNIQUE,
+  sort_order INTEGER NOT NULL UNIQUE,
   max_daily_quests INTEGER NOT NULL,
   allows_free_prompt INTEGER NOT NULL DEFAULT 0,
   created_at TEXT NOT NULL

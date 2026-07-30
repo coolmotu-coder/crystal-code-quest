@@ -5,7 +5,7 @@ export const learningStageSchema = z.object({
   key: z.string(),
   name: z.string(),
   description: z.string(),
-  order: z.number().int(),
+  sortOrder: z.number().int(),
   maxDailyQuests: z.number().int().min(1),
   allowsFreePrompt: z.boolean(),
 });

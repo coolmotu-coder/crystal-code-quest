@@ -1,0 +1,13 @@
+.git
+.github
+.next
+node_modules
+data
+.env.local
+.env.*.local
+*.md
+docs
+coverage
+playwright-report
+test-results
+.DS_Store

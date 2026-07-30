@@ -13,22 +13,22 @@ The specification recommended a TypeScript-first full-stack stack: Next.js or si
 
 We will use the following stack:
 
-| Layer | Choice | Reason |
-|---|---|---|
-| Framework | Next.js 15 App Router | Full-stack React with server components, server actions, and a single deployable container. |
-| Language | TypeScript 5 | Strict typing across the codebase. |
-| Styling | Tailwind CSS 3 | Token-driven utility CSS matching the hacker-style design reference. |
-| Motion | Framer Motion | Restrained, interruptible animations with `prefers-reduced-motion` support. |
-| UI primitives | Radix UI | Accessible, headless, keyboard-friendly components. |
-| Validation | Zod | Contracts and input validation on every server boundary. |
-| Database | SQLite + better-sqlite3 | Single-file, local, no external service required for this milestone. |
-| Sessions | iron-session v8 | Encrypted, HTTP-only, server-side cookies. |
-| Password hashing | bcryptjs | Secure hashes without native bindings. |
-| Testing | Vitest + React Testing Library | Unit and component tests. |
-| E2E | Playwright | Role-based browser tests across viewports. |
-| Package manager | pnpm | Fast, deterministic, content-addressable lockfile. |
-| Container | Pinned Node 22 Debian slim | `better-sqlite3` compiles native bindings; Debian slim is more reliable than Alpine for this. |
-| Orchestration | kind | Local Kubernetes cluster for home network validation. |
+| Layer            | Choice                         | Reason                                                                                        |
+| ---------------- | ------------------------------ | --------------------------------------------------------------------------------------------- |
+| Framework        | Next.js 15 App Router          | Full-stack React with server components, server actions, and a single deployable container.   |
+| Language         | TypeScript 5                   | Strict typing across the codebase.                                                            |
+| Styling          | Tailwind CSS 3                 | Token-driven utility CSS matching the hacker-style design reference.                          |
+| Motion           | Framer Motion                  | Restrained, interruptible animations with `prefers-reduced-motion` support.                   |
+| UI primitives    | Radix UI                       | Accessible, headless, keyboard-friendly components.                                           |
+| Validation       | Zod                            | Contracts and input validation on every server boundary.                                      |
+| Database         | SQLite + better-sqlite3        | Single-file, local, no external service required for this milestone.                          |
+| Sessions         | iron-session v8                | Encrypted, HTTP-only, server-side cookies.                                                    |
+| Password hashing | bcryptjs                       | Secure hashes without native bindings.                                                        |
+| Testing          | Vitest + React Testing Library | Unit and component tests.                                                                     |
+| E2E              | Playwright                     | Role-based browser tests across viewports.                                                    |
+| Package manager  | pnpm                           | Fast, deterministic, content-addressable lockfile.                                            |
+| Container        | Pinned Node 22 Debian slim     | `better-sqlite3` compiles native bindings; Debian slim is more reliable than Alpine for this. |
+| Orchestration    | kind                           | Local Kubernetes cluster for home network validation.                                         |
 
 ## Notable choices
 

@@ -1,12 +1,6 @@
 import { z } from "zod";
 
-export const questCategorySchema = z.enum([
-  "Power",
-  "Obstacle",
-  "Reward",
-  "Character",
-  "World",
-]);
+export const questCategorySchema = z.enum(["Power", "Obstacle", "Reward", "Character", "World"]);
 
 export const questStatusSchema = z.enum([
   "draft",
@@ -34,9 +28,7 @@ export const superJumpSelectionsSchema = z.object({
   usage: z.literal("One obstacle"),
 });
 
-export const promptSelectionsSchema = z.discriminatedUnion("category", [
-  superJumpSelectionsSchema,
-]);
+export const promptSelectionsSchema = z.discriminatedUnion("category", [superJumpSelectionsSchema]);
 
 export type QuestCategory = z.infer<typeof questCategorySchema>;
 export type QuestStatus = z.infer<typeof questStatusSchema>;

@@ -75,12 +75,12 @@ It contains:
 
 ### 2.3 Account summary
 
-| Product | Account | Purpose |
-|---|---|---|
-| Crystal Code Quest | Child Builder | Selects ideas, learns prompting, reviews plans, initiates builds, tests features, and learns from changes |
-| Crystal Code Quest | Parent | Reviews prompts, ideas, learning evidence, imagination journal, build history, safety decisions, approvals, and progression |
-| The Crystal Adventure | Player | Plays the real game and completes educational challenges |
-| The Crystal Adventure | Parent | Reviews the player’s learning progress, attempts, strengths, difficulties, and game-based learning history |
+| Product               | Account       | Purpose                                                                                                                     |
+| --------------------- | ------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| Crystal Code Quest    | Child Builder | Selects ideas, learns prompting, reviews plans, initiates builds, tests features, and learns from changes                   |
+| Crystal Code Quest    | Parent        | Reviews prompts, ideas, learning evidence, imagination journal, build history, safety decisions, approvals, and progression |
+| The Crystal Adventure | Player        | Plays the real game and completes educational challenges                                                                    |
+| The Crystal Adventure | Parent        | Reviews the player’s learning progress, attempts, strengths, difficulties, and game-based learning history                  |
 
 The Parent identity may eventually be shared across both products, but the two role experiences must remain clearly separated.
 
@@ -862,12 +862,12 @@ Repository development will use the **OpenCode Go subscription** through the Ope
 
 Initial development roles:
 
-| Development role | OpenCode Go model |
-|---|---|
-| Primary interface and repository implementation | `opencode-go/kimi-k2.7-code` |
-| Fast repository exploration and small analysis | `opencode-go/deepseek-v4-flash` |
-| Visual, usability, and accessibility review | `opencode-go/qwen3.7-plus` |
-| Independent code, architecture, and security review | `opencode-go/deepseek-v4-pro` |
+| Development role                                    | OpenCode Go model               |
+| --------------------------------------------------- | ------------------------------- |
+| Primary interface and repository implementation     | `opencode-go/kimi-k2.7-code`    |
+| Fast repository exploration and small analysis      | `opencode-go/deepseek-v4-flash` |
+| Visual, usability, and accessibility review         | `opencode-go/qwen3.7-plus`      |
+| Independent code, architecture, and security review | `opencode-go/deepseek-v4-pro`   |
 
 Rules:
 

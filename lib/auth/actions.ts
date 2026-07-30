@@ -2,27 +2,13 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import {
-  childLoginSchema,
-  parentLoginSchema,
-  Role,
-} from "@/lib/contracts";
+import { childLoginSchema, parentLoginSchema, Role } from "@/lib/contracts";
 import { destroySession, getSession, saveSession } from "@/lib/auth/session";
 import { verifyPassword } from "@/lib/auth/password";
-import {
-  checkThrottle,
-  recordFailedAttempt,
-  recordSuccessfulAttempt,
-} from "@/lib/auth/throttle";
-import {
-  getChildProfileByUserId,
-  getUserByEmail,
-  getUserByUsername,
-} from "@/lib/db/queries";
+import { checkThrottle, recordFailedAttempt, recordSuccessfulAttempt } from "@/lib/auth/throttle";
+import { getChildProfileByUserId, getUserByEmail, getUserByUsername } from "@/lib/db/queries";
 
-export type LoginResult =
-  | { success: true; role: Role }
-  | { success: false; error: string };
+export type LoginResult = { success: true; role: Role } | { success: false; error: string };
 
 export async function loginParent(formData: FormData): Promise<LoginResult> {
   const raw = {

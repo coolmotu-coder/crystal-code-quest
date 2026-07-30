@@ -2,21 +2,31 @@ import Database from "better-sqlite3";
 import fs from "node:fs";
 import path from "node:path";
 
-const DEFAULT_DATABASE_PATH = path.resolve(process.cwd(), "data", "crystal-code-quest.db");
+/**
+ * Resolve the SQLite database path at runtime from the environment.
+ * Falls back to a local `data/` directory under the current working directory.
+ */
+export function resolveDatabasePath(): string {
+  const configured = process.env.DATABASE_PATH?.trim();
+  if (configured && configured.length > 0) {
+    return path.resolve(configured);
+  }
 
-export const DATABASE_PATH = process.env.DATABASE_PATH ?? DEFAULT_DATABASE_PATH;
+  return path.resolve(process.cwd(), "data", "crystal-code-quest.db");
+}
 
 let db: Database.Database | null = null;
 
 export function getDatabase(): Database.Database {
   if (db) return db;
 
-  const dir = path.dirname(DATABASE_PATH);
+  const databasePath = resolveDatabasePath();
+  const dir = path.dirname(databasePath);
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir, { recursive: true });
   }
 
-  db = new Database(DATABASE_PATH);
+  db = new Database(databasePath);
   db.pragma("journal_mode = WAL");
   db.pragma("foreign_keys = ON");
 

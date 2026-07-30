@@ -4,13 +4,9 @@ import path from "node:path";
 import readline from "node:readline";
 import crypto from "node:crypto";
 import bcrypt from "bcryptjs";
-import { closeDatabase, DATABASE_PATH, getDatabase } from "@/lib/db";
+import { closeDatabase, getDatabase, resolveDatabasePath } from "@/lib/db";
 import { deleteAllData } from "@/lib/db/queries";
-import {
-  seedAll,
-  seedDemoHistory,
-  seedUsersAndProfiles,
-} from "@/scripts/seed";
+import { seedAll, seedDemoHistory, seedUsersAndProfiles } from "@/scripts/seed";
 
 const ENV_PATH = path.resolve(process.cwd(), ".env.local");
 const RESET_FLAG = process.argv.includes("--reset");
@@ -91,14 +87,16 @@ async function setup(): Promise<void> {
     getDatabase();
     deleteAllData();
     closeDatabase();
-    if (fs.existsSync(DATABASE_PATH)) {
-      fs.unlinkSync(DATABASE_PATH);
+    const databasePath = resolveDatabasePath();
+    if (fs.existsSync(databasePath)) {
+      fs.unlinkSync(databasePath);
     }
     console.log("Database reset.\n");
   }
 
   const sessionSecret = crypto.randomBytes(32).toString("hex");
-  const envContent = `SESSION_SECRET=${sessionSecret}\nDATABASE_PATH=${DATABASE_PATH}\n`;
+  const databasePath = resolveDatabasePath();
+  const envContent = `SESSION_SECRET=${sessionSecret}\nDATABASE_PATH=${databasePath}\n`;
   fs.writeFileSync(ENV_PATH, envContent);
   console.log("Generated .env.local with session secret.\n");
 

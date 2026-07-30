@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: crystal-code-quest
+  namespace: crystal-code-quest
+data:
+  DATABASE_PATH: "/data/crystal-code-quest.db"
+  HOSTNAME: "0.0.0.0"
+  NODE_ENV: "production"
+  PORT: "3000"

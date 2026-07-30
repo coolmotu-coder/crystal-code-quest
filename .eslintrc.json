@@ -27,5 +27,14 @@
     "jsx-a11y/anchor-is-valid": "off",
     "no-console": ["warn", { "allow": ["warn", "error"] }]
   },
-  "ignorePatterns": ["node_modules", ".next", "data", "dist", "coverage", "playwright-report", "test-results"]
+  "ignorePatterns": [
+    "node_modules",
+    ".next",
+    "data",
+    "dist",
+    "coverage",
+    "playwright-report",
+    "test-results",
+    "next-env.d.ts"
+  ]
 }

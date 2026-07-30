@@ -24,6 +24,9 @@ coverage/
 playwright-report/
 test-results/
 
+# Generated schema artifact for container migrations
+scripts/schema.sql
+
 # Logs
 *.log
 pnpm-debug.log*
@@ -32,3 +35,6 @@ pnpm-debug.log*
 .DS_Store
 .vscode/
 .idea/
+
+# TypeScript build cache
+*.tsbuildinfo

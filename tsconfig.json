@@ -1,10 +1,6 @@
 {
   "compilerOptions": {
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -22,9 +18,7 @@
       }
     ],
     "paths": {
-      "@/*": [
-        "./*"
-      ]
+      "@/*": ["./*"]
     },
     "baseUrl": ".",
     "forceConsistentCasingInFileNames": true,
@@ -32,20 +26,6 @@
     "exactOptionalPropertyTypes": true,
     "target": "ES2017"
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "**/*.js",
-    "**/*.jsx",
-    ".next/types/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "data",
-    "dist",
-    "coverage",
-    "playwright-report",
-    "test-results"
-  ]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules", "data", "dist", "coverage", "playwright-report", "test-results"]
 }

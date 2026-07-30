@@ -51,9 +51,9 @@ export type LearningStageRow = {
   key: string;
   name: string;
   description: string;
-  order: number;
+  sortOrder: number;
   // Application-level camelCase names. createLearningStage maps these to the
-  // snake_case database columns max_daily_quests and allows_free_prompt.
+  // snake_case database columns sort_order, max_daily_quests and allows_free_prompt.
   maxDailyQuests: number;
   allowsFreePrompt: number;
   created_at: string;
@@ -76,14 +76,14 @@ export function getUserByUsername(username: string): UserRow | undefined {
 
 export function getChildProfileByUserId(userId: string): ChildProfileRow | undefined {
   const db = getDatabase();
-  return db
-    .prepare("SELECT * FROM child_profiles WHERE user_id = ?")
-    .get(userId) as ChildProfileRow | undefined;
+  return db.prepare("SELECT * FROM child_profiles WHERE user_id = ?").get(userId) as
+    ChildProfileRow | undefined;
 }
 
 export function getChildProfileById(id: string): ChildProfileRow | undefined {
   const db = getDatabase();
-  return db.prepare("SELECT * FROM child_profiles WHERE id = ?").get(id) as ChildProfileRow | undefined;
+  return db.prepare("SELECT * FROM child_profiles WHERE id = ?").get(id) as
+    ChildProfileRow | undefined;
 }
 
 export function getCurrentChildForParent(parentUserId: string): ChildProfileRow | undefined {
@@ -102,23 +102,20 @@ export function getCurrentChildForParent(parentUserId: string): ChildProfileRow 
 
 export function getQuestTemplateBySlug(slug: string): QuestTemplateRow | undefined {
   const db = getDatabase();
-  return db
-    .prepare("SELECT * FROM quest_templates WHERE slug = ?")
-    .get(slug) as QuestTemplateRow | undefined;
+  return db.prepare("SELECT * FROM quest_templates WHERE slug = ?").get(slug) as
+    QuestTemplateRow | undefined;
 }
 
 export function getQuestTemplateById(id: string): QuestTemplateRow | undefined {
   const db = getDatabase();
-  return db
-    .prepare("SELECT * FROM quest_templates WHERE id = ?")
-    .get(id) as QuestTemplateRow | undefined;
+  return db.prepare("SELECT * FROM quest_templates WHERE id = ?").get(id) as
+    QuestTemplateRow | undefined;
 }
 
 export function getQuestSelectionById(id: string): QuestSelectionRow | undefined {
   const db = getDatabase();
-  return db
-    .prepare("SELECT * FROM quest_selections WHERE id = ?")
-    .get(id) as QuestSelectionRow | undefined;
+  return db.prepare("SELECT * FROM quest_selections WHERE id = ?").get(id) as
+    QuestSelectionRow | undefined;
 }
 
 export function getLatestQuestSelectionForChild(
@@ -135,43 +132,40 @@ export function getLatestQuestSelectionForChild(
 export function listQuestSelectionsForChild(childProfileId: string): QuestSelectionRow[] {
   const db = getDatabase();
   return db
-    .prepare(
-      "SELECT * FROM quest_selections WHERE child_profile_id = ? ORDER BY updated_at DESC",
-    )
+    .prepare("SELECT * FROM quest_selections WHERE child_profile_id = ? ORDER BY updated_at DESC")
     .all(childProfileId) as QuestSelectionRow[];
 }
 
 export function getLearningStageById(id: string): LearningStageRow | undefined {
   const db = getDatabase();
-  return db
-    .prepare("SELECT * FROM learning_stages WHERE id = ?")
-    .get(id) as LearningStageRow | undefined;
+  return db.prepare("SELECT * FROM learning_stages WHERE id = ?").get(id) as
+    LearningStageRow | undefined;
 }
 
 export function getLearningStageByKey(key: string): LearningStageRow | undefined {
   const db = getDatabase();
-  return db
-    .prepare("SELECT * FROM learning_stages WHERE key = ?")
-    .get(key) as LearningStageRow | undefined;
+  return db.prepare("SELECT * FROM learning_stages WHERE key = ?").get(key) as
+    LearningStageRow | undefined;
 }
 
 export function getDefaultLearningStage(): LearningStageRow | undefined {
   const db = getDatabase();
-  return db
-    .prepare("SELECT * FROM learning_stages ORDER BY order ASC LIMIT 1")
-    .get() as LearningStageRow | undefined;
+  return db.prepare("SELECT * FROM learning_stages ORDER BY sort_order ASC LIMIT 1").get() as
+    LearningStageRow | undefined;
 }
 
-export function getParentPolicyForChild(childProfileId: string): {
-  id: string;
-  parent_user_id: string;
-  child_profile_id: string;
-  current_stage_id: string;
-  allowed_categories: string;
-  daily_quest_limit: number;
-  created_at: string;
-  updated_at: string;
-} | undefined {
+export function getParentPolicyForChild(childProfileId: string):
+  | {
+      id: string;
+      parent_user_id: string;
+      child_profile_id: string;
+      current_stage_id: string;
+      allowed_categories: string;
+      daily_quest_limit: number;
+      created_at: string;
+      updated_at: string;
+    }
+  | undefined {
   const db = getDatabase();
   return db
     .prepare("SELECT * FROM parent_policies WHERE child_profile_id = ?")
@@ -239,14 +233,19 @@ export function createParentChildRelationship(relationship: {
   const stmt = db.prepare(
     "INSERT INTO parent_child_relationships (id, parent_user_id, child_user_id, created_at) VALUES (?, ?, ?, ?)",
   );
-  stmt.run(relationship.id, relationship.parent_user_id, relationship.child_user_id, relationship.created_at);
+  stmt.run(
+    relationship.id,
+    relationship.parent_user_id,
+    relationship.child_user_id,
+    relationship.created_at,
+  );
 }
 
 export function createLearningStage(stage: LearningStageRow): void {
   const db = getDatabase();
   const stmt = db.prepare(
     `
-    INSERT INTO learning_stages (id, key, name, description, order, max_daily_quests, allows_free_prompt, created_at)
+    INSERT INTO learning_stages (id, key, name, description, sort_order, max_daily_quests, allows_free_prompt, created_at)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     `,
   );
@@ -255,7 +254,7 @@ export function createLearningStage(stage: LearningStageRow): void {
     stage.key,
     stage.name,
     stage.description,
-    stage.order,
+    stage.sortOrder,
     stage.maxDailyQuests,
     stage.allowsFreePrompt,
     stage.created_at,
@@ -348,7 +347,13 @@ export function updateQuestSelection(selection: {
     WHERE id = ?
     `,
   );
-  stmt.run(selection.status, selection.constructed_prompt, selection.current_step, selection.updated_at, selection.id);
+  stmt.run(
+    selection.status,
+    selection.constructed_prompt,
+    selection.current_step,
+    selection.updated_at,
+    selection.id,
+  );
 }
 
 export function createPromptRecord(record: {
@@ -522,9 +527,7 @@ export function getLearningEvidenceForChild(childProfileId: string): Array<{
 }> {
   const db = getDatabase();
   return db
-    .prepare(
-      "SELECT * FROM learning_evidence WHERE child_profile_id = ? ORDER BY created_at DESC",
-    )
+    .prepare("SELECT * FROM learning_evidence WHERE child_profile_id = ? ORDER BY created_at DESC")
     .all(childProfileId) as Array<{
     id: string;
     child_profile_id: string;
@@ -545,7 +548,9 @@ export function getLearningEvidenceForQuest(questSelectionId: string): Array<{
 }> {
   const db = getDatabase();
   return db
-    .prepare("SELECT * FROM learning_evidence WHERE quest_selection_id = ? ORDER BY created_at DESC")
+    .prepare(
+      "SELECT * FROM learning_evidence WHERE quest_selection_id = ? ORDER BY created_at DESC",
+    )
     .all(questSelectionId) as Array<{
     id: string;
     child_profile_id: string;
@@ -604,14 +609,16 @@ export function getAchievementsForChild(childProfileId: string): Array<{
   }>;
 }
 
-export function getPromptRecord(questSelectionId: string): {
-  id: string;
-  quest_selection_id: string;
-  template_text: string;
-  final_prompt: string;
-  free_written_prompt: string | null;
-  created_at: string;
-} | undefined {
+export function getPromptRecord(questSelectionId: string):
+  | {
+      id: string;
+      quest_selection_id: string;
+      template_text: string;
+      final_prompt: string;
+      free_written_prompt: string | null;
+      created_at: string;
+    }
+  | undefined {
   const db = getDatabase();
   return db
     .prepare("SELECT * FROM prompt_records WHERE quest_selection_id = ?")
@@ -627,15 +634,17 @@ export function getPromptRecord(questSelectionId: string): {
     | undefined;
 }
 
-export function getPlanRecord(questSelectionId: string): {
-  id: string;
-  quest_selection_id: string;
-  plan_steps: string;
-  changes_requested: string | null;
-  status: string;
-  created_at: string;
-  updated_at: string;
-} | undefined {
+export function getPlanRecord(questSelectionId: string):
+  | {
+      id: string;
+      quest_selection_id: string;
+      plan_steps: string;
+      changes_requested: string | null;
+      status: string;
+      created_at: string;
+      updated_at: string;
+    }
+  | undefined {
   const db = getDatabase();
   return db
     .prepare("SELECT * FROM plan_records WHERE quest_selection_id = ?")
@@ -652,16 +661,18 @@ export function getPlanRecord(questSelectionId: string): {
     | undefined;
 }
 
-export function getBuildRecord(questSelectionId: string): {
-  id: string;
-  quest_selection_id: string;
-  current_state: string | null;
-  status: string;
-  result_summary: string | null;
-  failure_reason: string | null;
-  created_at: string;
-  completed_at: string | null;
-} | undefined {
+export function getBuildRecord(questSelectionId: string):
+  | {
+      id: string;
+      quest_selection_id: string;
+      current_state: string | null;
+      status: string;
+      result_summary: string | null;
+      failure_reason: string | null;
+      created_at: string;
+      completed_at: string | null;
+    }
+  | undefined {
   const db = getDatabase();
   return db
     .prepare("SELECT * FROM build_records WHERE quest_selection_id = ?")
@@ -753,7 +764,10 @@ export function updateParentPolicyDailyLimit(childProfileId: string, limit: numb
   stmt.run(limit, new Date().toISOString(), childProfileId);
 }
 
-export function updateParentPolicyAllowedCategories(childProfileId: string, categories: string): void {
+export function updateParentPolicyAllowedCategories(
+  childProfileId: string,
+  categories: string,
+): void {
   const db = getDatabase();
   const stmt = db.prepare(
     "UPDATE parent_policies SET allowed_categories = ?, updated_at = ? WHERE child_profile_id = ?",
@@ -763,17 +777,13 @@ export function updateParentPolicyAllowedCategories(childProfileId: string, cate
 
 export function updateChildProfileStreak(childProfileId: string, streak: number): void {
   const db = getDatabase();
-  const stmt = db.prepare(
-    "UPDATE child_profiles SET streak_days = ?, updated_at = ? WHERE id = ?",
-  );
+  const stmt = db.prepare("UPDATE child_profiles SET streak_days = ?, updated_at = ? WHERE id = ?");
   stmt.run(streak, new Date().toISOString(), childProfileId);
 }
 
 export function updateChildProfileXp(childProfileId: string, xp: number): void {
   const db = getDatabase();
-  const stmt = db.prepare(
-    "UPDATE child_profiles SET xp = ?, updated_at = ? WHERE id = ?",
-  );
+  const stmt = db.prepare("UPDATE child_profiles SET xp = ?, updated_at = ? WHERE id = ?");
   stmt.run(xp, new Date().toISOString(), childProfileId);
 }
 

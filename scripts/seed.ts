@@ -1,5 +1,4 @@
 import { runMigrations } from "@/lib/db/migrations";
-import { getDatabase } from "@/lib/db";
 import {
   createAchievement,
   createBuildRecord,
@@ -44,7 +43,7 @@ export function seedLearningStages(): void {
     key: "select-options",
     name: "Select Prompt Options",
     description: "Choose approved ideas and options to build a structured prompt.",
-    order: 1,
+    sortOrder: 1,
     maxDailyQuests: 3,
     allowsFreePrompt: 0,
     created_at: new Date().toISOString(),
@@ -183,7 +182,12 @@ export function seedDemoHistory(): void {
   });
 }
 
-export function seedUsersAndProfiles(parentEmail: string, parentPasswordHash: string, childUsername: string, childPasswordHash: string): void {
+export function seedUsersAndProfiles(
+  parentEmail: string,
+  parentPasswordHash: string,
+  childUsername: string,
+  childPasswordHash: string,
+): void {
   if (getUserById(IDS.parentUser)) {
     console.log("Seed users already exist; skipping user creation.");
     return;

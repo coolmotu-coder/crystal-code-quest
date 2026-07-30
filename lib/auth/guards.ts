@@ -1,10 +1,6 @@
 import { redirect } from "next/navigation";
 import { getSession, validateSession } from "./session";
-import {
-  getChildProfileByUserId,
-  getCurrentChildForParent,
-  getUserById,
-} from "@/lib/db/queries";
+import { getChildProfileByUserId, getCurrentChildForParent, getUserById } from "@/lib/db/queries";
 
 export type GuardContext = {
   userId: string;

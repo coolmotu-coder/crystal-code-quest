@@ -5,18 +5,10 @@
   "default_agent": "crystal-interface-builder",
   "share": "disabled",
   "subagent_depth": 1,
-  "instructions": [
-    "AGENTS.md",
-    "docs/crystal-code-quest-spec.md"
-  ],
+  "instructions": ["AGENTS.md", "docs/crystal-code-quest-spec.md"],
   "provider": {
     "opencode-go": {
-      "whitelist": [
-        "kimi-k2.7-code",
-        "deepseek-v4-flash",
-        "qwen3.7-plus",
-        "deepseek-v4-pro"
-      ]
+      "whitelist": ["kimi-k2.7-code", "deepseek-v4-flash", "qwen3.7-plus", "deepseek-v4-pro"]
     }
   },
   "permission": {
