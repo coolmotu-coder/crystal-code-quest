@@ -1,146 +1,95 @@
-# Development Guide
+# Development Guide — Crystal Code Quest
 
 ## Prerequisites
 
-- Node.js LTS (see `.nvmrc`)
-- npm (comes with Node.js)
-- Podman or Docker (for containerization in later phases)
+- Node.js 22 (see `.nvmrc`)
+- pnpm 9 or later
+- Podman or Docker (for container builds)
+- kind and kubectl (for local Kubernetes validation)
 
 ## Repository Structure
 
 ```
-the-crystal-adventure/
-├── apps/
-│   ├── web/          # React + Phaser frontend
-│   └── server/       # Fastify backend
-├── packages/
-│   └── contracts/    # Shared TypeScript types and Zod schemas
-├── docs/
-│   └── planning/     # Planning documents
-├── README.md
-├── CONTRIBUTING.md   # This file
-├── LICENSE
-└── .gitignore
+crystal-code-quest/
+├── app/                  # Next.js App Router
+│   ├── (child)/          # Child Builder routes
+│   ├── (parent)/         # Parent routes
+│   └── api/              # API routes and health checks
+├── components/           # React components
+│   ├── guide/            # Parent Guide placeholder
+│   ├── layout/           # Shell, sidebars, top bar
+│   ├── parent/           # Parent-specific components
+│   ├── quest/            # Quest and build components
+│   └── ui/               # Design-system primitives
+├── lib/                  # Application code
+│   ├── auth/             # Sessions, hashing, guards
+│   ├── contracts/        # Zod schemas
+│   ├── db/               # SQLite connection and queries
+│   ├── guide/            # Guide messages
+│   ├── journal/          # Imagination Journal helpers
+│   ├── learning/         # Learning evidence and stages
+│   └── quests/           # Quest templates, builder, plan, build
+├── scripts/              # CLI setup, migrations, seed
+├── tests/                # Unit and E2E tests
+├── infrastructure/kind/  # Kubernetes manifests
+├── data/                 # SQLite database (gitignored)
+├── docs/                 # Documentation and ADRs
+└── public/               # Static assets
 ```
 
 ## Getting Started
 
-### 1. Clone the repository
-
 ```bash
-git clone <repository-url>
-cd the-crystal-adventure
-```
-
-### 2. Install dependencies
-
-```bash
-npm install
-```
-
-### 3. Verify setup
-
-```bash
-# Check Node.js version
-node --version
-npm --version
-
-# Run tests (when available)
-npm test
+pnpm install
+pnpm db:setup
+pnpm db:migrate
+pnpm dev
 ```
 
 ## Development Workflow
 
-### Adding a new package
+### Running checks before committing
 
 ```bash
-# Create a new package in packages/
-mkdir packages/<package-name>
-cd packages/<package-name>
-npm init -y
+pnpm format:check
+pnpm lint
+pnpm typecheck
+pnpm test
 ```
 
-### Running development servers
+### Database changes
 
-```bash
-# Start web frontend
-npm run dev:web
+1. Add a migration file in `scripts/migrations/`.
+2. Run `pnpm db:migrate`.
+3. Ensure migrations are idempotent and recorded in the `migrations` table.
 
-# Start server
-npm run dev:server
+### Adding a dependency
 
-# Start both
-npm run dev
-```
-
-### Running tests
-
-```bash
-# Run all tests
-npm test
-
-# Run tests with coverage
-npm run test:coverage
-
-# Run specific test file
-npm run test -- <test-file>
-```
-
-### Linting and formatting
-
-```bash
-# Check linting
-npm run lint
-
-# Fix linting issues
-npm run lint:fix
-
-# Format code
-npm run format
-
-# Check formatting
-npm run format:check
-```
-
-## Code Standards
-
-- **TypeScript**: Strict mode enabled
-- **React**: Functional components with hooks
-- **Phaser 3**: Arcade Physics, Scale Manager `FIT`
-- **Fastify**: Plugin-based architecture
-- **Zod**: All input validation
-- **Claymorphism**: Visual style (see Phase 2)
-
-See `docs/mvp-spec.md` for full technical specifications.
+Add a dependency only when its purpose is clear. Prefer built-in Node.js APIs for scripts. Run `pnpm install <pkg>` and document the reason in the commit message.
 
 ## Commit Guidelines
 
-- Use conventional commits: `feat:`, `fix:`, `docs:`, `refactor:`, `test:`, `chore:`
-- Reference issue/PR numbers when applicable
-- Keep commits focused and atomic
+- Use conventional commits: `feat:`, `fix:`, `docs:`, `refactor:`, `test:`, `chore:`.
+- Keep commits focused and atomic.
+- Never commit `.env.local`, `data/*.db`, or credentials.
+
+## Testing
+
+- Unit and component tests live in `tests/unit/`.
+- E2E tests live in `tests/e2e/`.
+- Capture screenshots for design review after the First Vertical Slice.
+
+## Safety Constraints
+
+- No LLM or provider calls in the interface milestone.
+- No coding agents or shell execution inside the application.
+- No access to The Crystal Adventure repository.
+- All build and preview states must be clearly labelled **mocked**.
+- Only password hashes are stored in SQLite.
 
 ## Deployment
 
-See `docs/planning/delivery-plan.md` for deployment phases.
-
-## Troubleshooting
-
-### Node version mismatch
-
-Use `nvm` to switch to the LTS version specified in `.nvmrc`:
-
-```bash
-nvm install
-nvm use
-```
-
-### Dependency issues
-
-```bash
-# Clean install
-rm -rf node_modules package-lock.json
-npm install
-```
+See `README.md` for container build and Kind deployment commands.
 
 ## Questions?
 
