@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Crystal Code Quest | Learning Studio</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;800&amp;family=Inter:wght@400;500&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(51, 65, 85, 1);
+        }
+        .inner-glow {
+            box-shadow: inset 0 0.5px 0 rgba(255, 255, 255, 0.1);
+        }
+        .hex-marker {
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #121212;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 10px;
+        }
+        .quest-pulse {
+            animation: pulse-violet 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse-violet {
+            0%, 100% { opacity: 1; filter: drop-shadow(0 0 8px #8B5CF6); }
+            50% { opacity: 0.8; filter: drop-shadow(0 0 2px #8B5CF6); }
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-tint": "#3cddc7",
+                        "on-secondary-container": "#e6ecff",
+                        "secondary-container": "#0566d9",
+                        "surface-container": "#201f1f",
+                        "surface": "#131313",
+                        "inverse-surface": "#e5e2e1",
+                        "on-background": "#e5e2e1",
+                        "surface-dim": "#131313",
+                        "secondary": "#adc6ff",
+                        "on-secondary-fixed": "#001a42",
+                        "inverse-on-surface": "#313030",
+                        "error-container": "#93000a",
+                        "tertiary-fixed": "#e9ddff",
+                        "on-tertiary": "#3c0091",
+                        "surface-container-low": "#1c1b1b",
+                        "surface-container-lowest": "#0e0e0e",
+                        "on-error": "#690005",
+                        "tertiary-fixed-dim": "#d0bcff",
+                        "on-tertiary-fixed": "#23005c",
+                        "on-surface": "#e5e2e1",
+                        "on-primary": "#003731",
+                        "surface-container-high": "#2a2a2a",
+                        "tertiary": "#e2d3ff",
+                        "surface-variant": "#353534",
+                        "on-secondary": "#002e6a",
+                        "outline-variant": "#3c4a46",
+                        "on-secondary-fixed-variant": "#004395",
+                        "tertiary-container": "#c9b2ff",
+                        "primary-fixed": "#62fae3",
+                        "on-primary-fixed": "#00201c",
+                        "on-primary-fixed-variant": "#005047",
+                        "primary-container": "#2dd4bf",
+                        "secondary-fixed": "#d8e2ff",
+                        "outline": "#859490",
+                        "background": "#131313",
+                        "on-tertiary-fixed-variant": "#5516be",
+                        "primary-fixed-dim": "#3cddc7",
+                        "secondary-fixed-dim": "#adc6ff",
+                        "primary": "#57f1db",
+                        "on-tertiary-container": "#5b22c4",
+                        "on-error-container": "#ffdad6",
+                        "on-primary-container": "#00574d",
+                        "error": "#ffb4ab",
+                        "on-surface-variant": "#bacac5",
+                        "inverse-primary": "#006b5f",
+                        "surface-container-highest": "#353534",
+                        "surface-bright": "#393939"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "gutter": "24px",
+                        "touch-target-min": "48px",
+                        "unit": "8px",
+                        "panel-gap": "12px",
+                        "margin-desktop": "40px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Hanken Grotesk"],
+                        "headline-sm": ["Hanken Grotesk"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "label-caps": ["JetBrains Mono"],
+                        "body-lg": ["Inter"],
+                        "code-sm": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-md": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "code-sm": ["14px", {"lineHeight": "20px", "fontWeight": "500"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface font-body-md selection:bg-primary-container selection:text-on-primary-container overflow-hidden">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-touch-target-min bg-surface border-b border-outline-variant">
+<div class="flex items-center gap-4">
+<span class="font-display-lg text-display-lg text-primary uppercase tracking-tighter">CRYSTAL CODE QUEST</span>
+</div>
+<div class="flex items-center gap-unit">
+<button class="w-touch-target-min h-touch-target-min flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors active:scale-95 duration-100">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="flex items-center gap-2 bg-surface-container-high px-3 py-1 rounded-full border border-outline-variant">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+<span class="font-label-caps text-label-caps text-primary">5 DAY STREAK</span>
+</div>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-primary ml-2">
+<img class="w-full h-full object-cover" data-alt="A portrait of a young 8-year-old boy named Linus with a curious expression, styled as a premium digital profile photo. The lighting is moody with teal and violet rim lights, creating a high-end tech-explorer aesthetic against a dark charcoal background. The image has a sharp, cinematic focus with high detail." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBb9_JXpffh1XFoez0z95U5imJLjWtZ7MIaXX6a6jk_4sIb84jlPZbfZQpq6kPorCn1Rb2Wz0Aq_HY0gWhbivxzwo2oz7h-k8T3aVYeQ_ENCKH7-pa2ZQne79Pj6dJvqe_UhJGOWPgz4vEuy1vMOFjz-KQoncZvAOVtDJB2l_eb2eMFxC8rQLgmyQdHsSF6REYYOaR_HoOCKis7oTYz5sm7XlT8HoXrrY_QUzSm0FomQVEdo0EqNhJA"/>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="hidden md:flex flex-col h-screen w-64 fixed left-0 top-0 pt-touch-target-min bg-surface-container border-r border-outline-variant z-40 p-panel-gap">
+<div class="px-4 py-6 border-b border-outline-variant/30 mb-4">
+<h2 class="font-headline-md text-headline-md text-primary font-black">Hi Linus!</h2>
+<p class="font-label-caps text-label-caps text-on-surface-variant opacity-70">Level 12 • 5 Day Streak</p>
+</div>
+<nav class="flex flex-col gap-unit">
+<a class="text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/50 px-4 py-3 flex items-center gap-3 transition-colors active:translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-caps text-label-caps">DASHBOARD</span>
+</a>
+<a class="text-primary bg-primary-container/10 border-l-4 border-primary px-4 py-3 flex items-center gap-3 active:translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">explore</span>
+<span class="font-label-caps text-label-caps">QUESTS</span>
+</a>
+<a class="text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/50 px-4 py-3 flex items-center gap-3 active:translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined">terminal</span>
+<span class="font-label-caps text-label-caps">PROMPT LAB</span>
+</a>
+<a class="text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/50 px-4 py-3 flex items-center gap-3 active:translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined">auto_awesome</span>
+<span class="font-label-caps text-label-caps">MY ADVENTURE</span>
+</a>
+<a class="text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/50 px-4 py-3 flex items-center gap-3 active:translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined">emoji_events</span>
+<span class="font-label-caps text-label-caps">ACHIEVEMENTS</span>
+</a>
+<a class="text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/50 px-4 py-3 flex items-center gap-3 active:translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined">school</span>
+<span class="font-label-caps text-label-caps">LEARN</span>
+</a>
+</nav>
+<div class="mt-auto pt-4 border-t border-outline-variant/30">
+<button class="w-full bg-primary text-on-primary font-label-caps text-label-caps py-4 rounded-lg flex items-center justify-center gap-2 mb-4 hover:brightness-110 transition-all active:scale-95">
+                CONTINUE QUEST
+                <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+<div class="flex flex-col gap-1">
+<a class="text-on-surface-variant hover:text-on-surface px-4 py-2 flex items-center gap-3" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+<span class="font-label-caps text-[11px]">SETTINGS</span>
+</a>
+<a class="text-on-surface-variant hover:text-on-surface px-4 py-2 flex items-center gap-3" href="#">
+<span class="material-symbols-outlined text-[20px]">help_outline</span>
+<span class="font-label-caps text-[11px]">SUPPORT</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-0 md:ml-64 pt-touch-target-min min-h-screen overflow-y-auto bg-background">
+<div class="max-w-[1200px] mx-auto p-margin-desktop space-y-gutter">
+<!-- Breadcrumbs / Identity -->
+<div class="flex items-center gap-2 text-on-surface-variant font-label-caps text-label-caps">
+<span>QUESTS</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-primary">SUPER JUMP</span>
+<span class="mx-4 text-outline">•</span>
+<span class="bg-surface-container-high px-2 py-0.5 rounded border border-outline-variant text-primary">APPRENTICE STAGE</span>
+</div>
+<div class="grid grid-cols-12 gap-gutter">
+<!-- Current Quest Hero Card -->
+<section class="col-span-12 lg:col-span-8 glass-panel rounded-xl overflow-hidden relative inner-glow">
+<div class="absolute inset-0 z-0 opacity-40">
+
+</div>
+<div class="relative z-10 p-8 flex flex-col h-full justify-between min-h-[320px]">
+<div>
+<span class="bg-primary/20 text-primary border border-primary/40 px-3 py-1 rounded-full font-label-caps text-[10px] tracking-widest mb-4 inline-block">MISSION 04</span>
+<h1 class="font-display-lg text-display-lg text-white mb-2">SUPER JUMP</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-lg">Master the laws of vertical momentum. You'll build a responsive jump mechanic using conditional physics logic.</p>
+</div>
+<div class="flex items-center gap-4 mt-8">
+<button class="bg-primary text-on-primary px-8 py-4 rounded-lg font-label-caps text-label-caps flex items-center gap-2 hover:scale-105 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+                                ENTER WORKSPACE
+                            </button>
+<div class="flex flex-col">
+<span class="font-label-caps text-[10px] text-on-surface-variant">DIFFICULTY</span>
+<div class="flex gap-1">
+<div class="w-3 h-3 bg-primary rounded-sm"></div>
+<div class="w-3 h-3 bg-primary rounded-sm"></div>
+<div class="w-3 h-3 bg-outline-variant rounded-sm"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Learning journey module (6-step) -->
+<section class="col-span-12 lg:col-span-4 glass-panel rounded-xl p-6 inner-glow">
+<h3 class="font-label-caps text-label-caps text-on-surface-variant mb-6 flex items-center justify-between">
+                        QUEST PROGRESSION
+                        <span class="text-primary">45%</span>
+</h3>
+<div class="space-y-4">
+<!-- Step 1 Done -->
+<div class="flex items-center gap-4 group">
+<div class="hex-marker w-10 h-10 bg-primary/20 border border-primary flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">check</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-caps text-[11px] text-primary">STEP 01</span>
+<span class="text-on-surface font-semibold text-sm">Gravity Vector</span>
+</div>
+</div>
+<!-- Step 2 Active -->
+<div class="flex items-center gap-4 group">
+<div class="hex-marker w-10 h-10 bg-primary border border-primary flex items-center justify-center text-on-primary shadow-[0_0_15px_rgba(45,212,191,0.4)]">
+<span class="material-symbols-outlined text-[20px]">bolt</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-caps text-[11px] text-primary">STEP 02</span>
+<span class="text-on-surface font-semibold text-sm">Input Listeners</span>
+</div>
+</div>
+<!-- Step 3 Incomplete -->
+<div class="flex items-center gap-4 opacity-50">
+<div class="hex-marker w-10 h-10 bg-surface-container-high border border-outline-variant flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]">lock</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-caps text-[11px]">STEP 03</span>
+<span class="text-on-surface-variant text-sm">Condition Gates</span>
+</div>
+</div>
+<!-- Step 4-6 Dot markers -->
+<div class="pl-4 space-y-4 pt-2">
+<div class="flex items-center gap-6 opacity-30">
+<div class="w-2 h-2 rounded-full bg-outline"></div>
+<span class="font-label-caps text-[10px]">COLLISION MATRICES</span>
+</div>
+<div class="flex items-center gap-6 opacity-30">
+<div class="w-2 h-2 rounded-full bg-outline"></div>
+<span class="font-label-caps text-[10px]">SOUND SYNTH</span>
+</div>
+<div class="flex items-center gap-6 opacity-30">
+<div class="w-2 h-2 rounded-full bg-outline"></div>
+<span class="font-label-caps text-[10px]">FINAL DEPLOY</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Learning Card: Condition -->
+<section class="col-span-12 md:col-span-6 lg:col-span-4 glass-panel rounded-xl p-6 inner-glow flex flex-col">
+<div class="flex items-center gap-3 mb-4">
+<div class="w-10 h-10 bg-surface-container-lowest flex items-center justify-center rounded border border-outline-variant">
+<span class="material-symbols-outlined text-primary">psychology</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Condition</h3>
+</div>
+<div class="bg-surface-container-lowest rounded p-4 border-l-4 border-primary mb-4 flex-grow">
+<p class="text-on-surface-variant mb-4 italic">"A condition is a rule your program follows to make a decision."</p>
+<div class="font-code-sm text-code-sm bg-black/40 p-3 rounded border border-outline-variant text-primary-fixed">
+<span class="text-secondary">if</span> (spaceKey.isPressed) {<br/>
+                              player.jump();<br/>
+                            }
+                        </div>
+</div>
+<button class="text-primary font-label-caps text-label-caps flex items-center gap-2 hover:translate-x-1 transition-transform">
+                        PRACTICE SNIPPET
+                        <span class="material-symbols-outlined text-[18px]">open_in_new</span>
+</button>
+</section>
+<!-- Parent Guide panel -->
+<section class="col-span-12 md:col-span-6 lg:col-span-4 bg-surface-container-high rounded-xl overflow-hidden border border-outline-variant flex">
+<div class="w-1/3 min-w-[120px] bg-secondary-container relative overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A warm, illustrated human character acting as a guide, with kind eyes and a friendly smile. The style is sophisticated 3D digital art, not a cartoon, featuring soft textures and realistic lighting. The guide is set against a teal and blue background that harmonizes with the technical UI style of the dashboard." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAgapXG-i8AKV7owgY9O2dixNm6VLCdHNY64ZFAjqbd6LKS7lnW-2Oc3VGEvj-rq-otmn9wIIw6s_OtuKWjwqiVUYut4WcoUyZl766dJE67qMUV42ZfmAn4YPuf5tZjWUTcfDEfVe-fq7elkRvEqzGhK6x6Zr2Iub_ArPUMt3PBgrhwpWu7Xz9KUmhGCWyoA17PlOp9xGHOHsYGly4hu5Ta0ggAtJ1U1_xFQUUO0axJd3_GEt2VYKf_"/>
+</div>
+<div class="p-6 flex flex-col justify-center">
+<h4 class="font-label-caps text-label-caps text-secondary mb-2">PARENT GUIDE</h4>
+<p class="text-sm text-on-surface-variant leading-relaxed">Linus is exploring boolean logic today. Ask him how the player knows when to jump!</p>
+<a class="mt-4 text-secondary text-[12px] font-bold underline underline-offset-4" href="#">VIEW CURRICULUM</a>
+</div>
+</section>
+<!-- The Crystal Adventure violet preview area -->
+<section class="col-span-12 lg:col-span-4 rounded-xl relative overflow-hidden h-[240px] lg:h-auto border border-violet-500/30">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="A cinematic, mysterious environment from 'The Crystal Adventure' game. Glowing violet crystals emerge from a dark obsidian landscape under a starry nebula sky. The art style is high-fidelity and atmospheric, suggesting an epic tech-fantasy world for children to explore. The color palette is dominated by deep violets, blacks, and neon cyan accents." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC7IJHzhxQVq0ocG0iYbAZJCxlIj0d0MVx3jZZe4RcO1cNqfugzS68sl3MmaHTfAJX_afsP6i5irpPDZf5fUbJsTcYwb1HZO_knrdciGAES689ndWLW8h-mwq4YAGkQgus4rbAx8Mm6ePhwMc34mykykt42cK_9G6G3rQyt4OE2y1nI8wSkmfLmScfpjsPjbSrqQL2EJF7GkQwQOYjBHxXzDHaSYzBqCkyMlSojCZcU-AtkY-xK4Ifi')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-6 w-full">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-violet-400 quest-pulse" style="font-variation-settings: 'FILL' 1;">diamond</span>
+<span class="font-label-caps text-label-caps text-violet-300">COMING UP NEXT</span>
+</div>
+<h3 class="text-white font-headline-sm text-headline-sm">The Crystal Void</h3>
+<p class="text-on-surface-variant text-[12px] mb-4">Complete 2 more quests to unlock this world.</p>
+<div class="w-full bg-white/10 h-1 rounded-full overflow-hidden">
+<div class="bg-violet-500 h-full w-[60%]"></div>
+</div>
+</div>
+</section>
+</div>
+<!-- Bento Grid - Practice Stats & Tools -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-unit">
+<div class="glass-panel p-4 rounded-lg border border-outline-variant flex items-center gap-4">
+<span class="material-symbols-outlined text-primary text-[32px]">timer</span>
+<div>
+<div class="text-on-surface-variant font-label-caps text-[10px]">TIME SPENT</div>
+<div class="text-xl font-bold">42 MIN</div>
+</div>
+</div>
+<div class="glass-panel p-4 rounded-lg border border-outline-variant flex items-center gap-4">
+<span class="material-symbols-outlined text-primary text-[32px]">code</span>
+<div>
+<div class="text-on-surface-variant font-label-caps text-[10px]">LINES WRITTEN</div>
+<div class="text-xl font-bold">128</div>
+</div>
+</div>
+<div class="glass-panel p-4 rounded-lg border border-outline-variant flex items-center gap-4">
+<span class="material-symbols-outlined text-primary text-[32px]">verified</span>
+<div>
+<div class="text-on-surface-variant font-label-caps text-[10px]">CHALLENGES</div>
+<div class="text-xl font-bold">14 / 20</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 px-gutter pb-safe bg-surface-container-highest border-t border-outline-variant md:hidden rounded-t-full shadow-lg">
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-caps text-[10px]">HOME</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary text-on-primary rounded-full px-4 py-1 active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">explore</span>
+<span class="font-label-caps text-[10px]">QUESTS</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary" href="#">
+<span class="material-symbols-outlined">psychology</span>
+<span class="font-label-caps text-[10px]">LAB</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-caps text-[10px]">PROFILE</span>
+</a>
+</nav>
+<script>
+        // Micro-interaction for hex markers
+        document.querySelectorAll('.hex-marker').forEach(marker => {
+            marker.addEventListener('mouseenter', () => {
+                marker.style.transform = 'scale(1.1) rotate(5deg)';
+                marker.style.transition = 'transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+            });
+            marker.addEventListener('mouseleave', () => {
+                marker.style.transform = 'scale(1) rotate(0deg)';
+            });
+        });
+
+        // Simulating some activity in the terminal-style dashboard
+        setInterval(() => {
+            const glow = document.querySelector('.quest-pulse');
+            if(glow) {
+                glow.style.filter = `drop-shadow(0 0 ${Math.random() * 10 + 5}px #8B5CF6)`;
+            }
+        }, 1000);
+    </script>
+</body></html>
