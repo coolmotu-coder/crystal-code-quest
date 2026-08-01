@@ -4,20 +4,13 @@ import { requireChild } from "@/lib/auth/guards";
 import { getPlanRecord, getQuestSelectionById } from "@/lib/db/queries";
 import { ChildShell } from "@/components/child/child-shell";
 import { savePlanAndContinue } from "@/lib/quest/actions";
+import { buildMockedPlanSteps, parsePromptSelections } from "@/lib/quest/prompt";
 
 const paramsSchema = z.object({ id: z.string().uuid() });
 
 export const metadata = {
   title: "Review the AI plan — Crystal Code Quest",
 };
-
-const mockedPlanSteps = [
-  "Listen for a correct hard maths answer.",
-  "Give Super Jump to Lucas.",
-  "Allow one approved obstacle.",
-  "Remove the power after use.",
-  "Verify existing questions still work.",
-];
 
 export default async function QuestPlanPage({ params }: { params: Promise<{ id: string }> }) {
   const child = await requireChild();
@@ -32,8 +25,11 @@ export default async function QuestPlanPage({ params }: { params: Promise<{ id: 
     redirect("/child/quests");
   }
 
+  const selections = parsePromptSelections(JSON.parse(selection.selections));
   const planRecord = getPlanRecord(selection.id);
-  const planSteps = planRecord ? (JSON.parse(planRecord.plan_steps) as string[]) : mockedPlanSteps;
+  const planSteps = planRecord
+    ? (JSON.parse(planRecord.plan_steps) as string[])
+    : buildMockedPlanSteps(selections.character);
 
   return (
     <ChildShell

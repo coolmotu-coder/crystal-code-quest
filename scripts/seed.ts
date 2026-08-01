@@ -118,9 +118,9 @@ export function seedDemoHistory(): void {
     id: IDS.promptRecord,
     quest_selection_id: IDS.questSelection,
     template_text:
-      "When {character} answers a {difficulty} {subject} question {trigger}, give him {power} for {usage}.",
+      "When {character} answers a {difficulty} {subject} question {trigger}, give them {power} for {usage}.",
     final_prompt:
-      "When Lucas answers a hard maths question correctly, give him Super Jump for one obstacle.",
+      "When Lucas answers a hard maths question correctly, give them Super Jump for one obstacle.",
     free_written_prompt: null,
     created_at: now,
   });

@@ -34,7 +34,7 @@ async function seedParentAndChild() {
     email: null,
     role: "child",
     password_hash: childHash,
-    name: "linus",
+    name: "maya-builder",
     created_at: now,
     updated_at: now,
   });
@@ -42,7 +42,7 @@ async function seedParentAndChild() {
   createChildProfile({
     id: CHILD_PROFILE_ID,
     user_id: CHILD_USER_ID,
-    display_name: "Linus",
+    display_name: "Maya",
     level: 1,
     xp: 0,
     streak_days: 0,

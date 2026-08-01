@@ -46,7 +46,7 @@ export function CreateChildForm({ createChild }: CreateChildFormProps) {
           name="displayName"
           type="text"
           autoComplete="off"
-          placeholder="Linus"
+          placeholder="Child display name"
           required
           disabled={isPending}
           aria-invalid={error ? "true" : undefined}

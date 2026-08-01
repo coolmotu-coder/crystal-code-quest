@@ -1,6 +1,11 @@
 import { redirect } from "next/navigation";
 import { getSession, validateSession } from "./session";
-import { getChildProfileByUserId, getCurrentChildForParent, getUserById } from "@/lib/db/queries";
+import {
+  getChildProfileByUserId,
+  getCurrentChildForParent,
+  getUserById,
+  type ChildProfileRow,
+} from "@/lib/db/queries";
 
 export type GuardContext = {
   userId: string;
@@ -75,7 +80,7 @@ export async function requireChild(): Promise<{
 export async function requireParentWithChild(): Promise<{
   userId: string;
   displayName: string;
-  childProfileId: string;
+  childProfile: ChildProfileRow;
 }> {
   const parent = await requireParent();
   const childProfile = getCurrentChildForParent(parent.userId);
@@ -86,7 +91,7 @@ export async function requireParentWithChild(): Promise<{
   return {
     userId: parent.userId,
     displayName: parent.displayName,
-    childProfileId: childProfile.id,
+    childProfile,
   };
 }
 

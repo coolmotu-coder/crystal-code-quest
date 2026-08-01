@@ -39,8 +39,7 @@ export default async function QuestSuccessPage({ params }: { params: Promise<{ i
   const buildRecord = getBuildRecord(selection.id);
   const learningEvidence = getLearningEvidenceForQuest(selection.id);
 
-  const reflectionQuestion =
-    "What would happen if Lucas answered an easy question instead of a hard one?";
+  const reflectionQuestion = `What would happen if ${selections.character} answered an easy question instead of a hard one?`;
 
   return (
     <ChildShell title="Quest complete">
@@ -104,7 +103,7 @@ export default async function QuestSuccessPage({ params }: { params: Promise<{ i
             ) : (
               <p className="text-sm text-text-secondary">
                 You created a rule with two conditions: the answer must be correct and the question
-                must be hard. Only then does Lucas receive Super Jump.
+                must be hard. Only then does {selections.character} receive {selections.power}.
               </p>
             )}
           </section>

@@ -33,7 +33,7 @@ describe("Super Jump quest journey", () => {
     const prompt = constructPrompt(selections);
 
     expect(prompt.text).toBe(
-      "When Lucas answers a hard maths question correctly, give him Super Jump for one obstacle.",
+      "When Lucas answers a hard maths question correctly, give them Super Jump for one obstacle.",
     );
     expect(prompt.who).toBe("Lucas");
     expect(prompt.what).toBe("Super Jump");

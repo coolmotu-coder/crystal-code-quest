@@ -75,7 +75,7 @@ async function seedUserAndSelection() {
       usage: "One obstacle",
     }),
     constructed_prompt:
-      "When Lucas answers a hard maths question correctly, give him Super Jump for one obstacle.",
+      "When Lucas answers a hard maths question correctly, give them Super Jump for one obstacle.",
     current_step: "success",
     created_at: now,
     updated_at: now,

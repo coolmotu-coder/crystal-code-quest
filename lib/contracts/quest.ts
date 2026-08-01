@@ -20,7 +20,7 @@ export const buildStatusSchema = z.enum([
 
 export const superJumpSelectionsSchema = z.object({
   category: z.literal("Power"),
-  character: z.literal("Lucas"),
+  character: z.string().min(1),
   power: z.literal("Super Jump"),
   trigger: z.literal("Correct Answer"),
   subject: z.literal("Maths"),

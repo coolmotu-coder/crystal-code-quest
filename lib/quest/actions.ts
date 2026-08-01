@@ -25,6 +25,7 @@ import {
   updateQuestSelection,
 } from "@/lib/db/queries";
 import {
+  buildMockedPlanSteps,
   constructPrompt,
   defaultSelectionsFromSchema,
   parsePromptSelections,
@@ -38,35 +39,29 @@ const selectionIdSchema = z.object({
   selectionId: z.string().uuid(),
 });
 
-const mockedPlanSteps = [
-  "Listen for a correct hard maths answer.",
-  "Give Super Jump to Lucas.",
-  "Allow one approved obstacle.",
-  "Remove the power after use.",
-  "Verify existing questions still work.",
-];
-
 const mockedBuildResultSummary =
   "Mocked result: the feature passed its practice tests. No real game code was changed.";
 
-const learningEvidence = [
-  {
-    skill: "Identified character and action",
-    evidence: "Linus selected Lucas as the character and Super Jump as the power.",
-  },
-  {
-    skill: "Combined two conditions",
-    evidence:
-      "Linus added two conditions that must both be true: the answer must be correct and the question must be hard.",
-  },
-];
+function buildLearningEvidence(childName: string, character: string, power: string) {
+  return [
+    {
+      skill: "Identified character and action",
+      evidence: `${childName} selected ${character} as the character and ${power} as the power.`,
+    },
+    {
+      skill: "Combined two conditions",
+      evidence: `${childName} added two conditions that must both be true: the answer must be correct and the question must be hard.`,
+    },
+  ];
+}
 
-const journalEntry = {
-  idea: "Lucas should get Super Jump after answering a hard maths question.",
-  whyInteresting:
-    "Linus connected a learning moment (correct hard answer) to a gameplay reward (Super Jump).",
-  whatLearned: "A rule can have more than one condition that must all be true.",
-};
+function buildJournalEntry(childName: string, character: string, power: string) {
+  return {
+    idea: `${character} should get ${power} after answering a hard maths question.`,
+    whyInteresting: `${childName} connected a learning moment (correct hard answer) to a gameplay reward (${power}).`,
+    whatLearned: "A rule can have more than one condition that must all be true.",
+  };
+}
 
 const firstPromptAchievement = {
   slug: "first-prompt",
@@ -178,7 +173,7 @@ export async function savePromptAndContinue(formData: FormData): Promise<void> {
       id: crypto.randomUUID(),
       quest_selection_id: selection.id,
       template_text:
-        "When {character} answers a {difficulty} {subject} question {trigger}, give him {power} for {usage}.",
+        "When {character} answers a {difficulty} {subject} question {trigger}, give them {power} for {usage}.",
       final_prompt: constructed.text,
       free_written_prompt: null,
       created_at: now,
@@ -212,13 +207,14 @@ export async function savePlanAndContinue(formData: FormData): Promise<void> {
     redirect("/child/quests");
   }
 
+  const selections = parsePromptSelections(JSON.parse(selection.selections));
   const now = new Date().toISOString();
 
   if (!getPlanRecord(selection.id)) {
     createPlanRecord({
       id: crypto.randomUUID(),
       quest_selection_id: selection.id,
-      plan_steps: JSON.stringify(mockedPlanSteps),
+      plan_steps: JSON.stringify(buildMockedPlanSteps(selections.character)),
       changes_requested: null,
       status: "approved",
       created_at: now,
@@ -304,7 +300,7 @@ export async function completeBuild(formData: FormData): Promise<void> {
       id: crypto.randomUUID(),
       quest_selection_id: selection.id,
       template_text:
-        "When {character} answers a {difficulty} {subject} question {trigger}, give him {power} for {usage}.",
+        "When {character} answers a {difficulty} {subject} question {trigger}, give them {power} for {usage}.",
       final_prompt: constructed.text,
       free_written_prompt: null,
       created_at: now,
@@ -315,7 +311,7 @@ export async function completeBuild(formData: FormData): Promise<void> {
     createPlanRecord({
       id: crypto.randomUUID(),
       quest_selection_id: selection.id,
-      plan_steps: JSON.stringify(mockedPlanSteps),
+      plan_steps: JSON.stringify(buildMockedPlanSteps(selections.character)),
       changes_requested: null,
       status: "approved",
       created_at: now,
@@ -347,7 +343,11 @@ export async function completeBuild(formData: FormData): Promise<void> {
   }
 
   if (!hasLearningEvidenceForQuest(selection.id)) {
-    for (const item of learningEvidence) {
+    for (const item of buildLearningEvidence(
+      child.displayName,
+      selections.character,
+      selections.power,
+    )) {
       createLearningEvidence({
         id: crypto.randomUUID(),
         child_profile_id: child.profileId,
@@ -360,13 +360,14 @@ export async function completeBuild(formData: FormData): Promise<void> {
   }
 
   if (!hasImaginationJournalEntryForQuest(selection.id)) {
+    const entry = buildJournalEntry(child.displayName, selections.character, selections.power);
     createImaginationJournalEntry({
       id: crypto.randomUUID(),
       child_profile_id: child.profileId,
       quest_selection_id: selection.id,
-      idea: journalEntry.idea,
-      why_interesting: journalEntry.whyInteresting,
-      what_learned: journalEntry.whatLearned,
+      idea: entry.idea,
+      why_interesting: entry.whyInteresting,
+      what_learned: entry.whatLearned,
       created_at: now,
     });
   }

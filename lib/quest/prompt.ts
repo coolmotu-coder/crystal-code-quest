@@ -23,7 +23,7 @@ export function constructPrompt(selections: PromptSelections): ConstructedPrompt
 
   switch (selections.category) {
     case "Power":
-      prompt.text = `When ${selections.character} answers a ${selections.difficulty.toLowerCase()} ${subject} question ${trigger}, give him ${selections.power} for ${selections.usage.toLowerCase()}.`;
+      prompt.text = `When ${selections.character} answers a ${selections.difficulty.toLowerCase()} ${subject} question ${trigger}, give them ${selections.power} for ${selections.usage.toLowerCase()}.`;
       prompt.who = selections.character;
       prompt.what = selections.power;
       prompt.when = `${selections.trigger} ${selections.difficulty.toLowerCase()} ${subject}`;
@@ -52,4 +52,14 @@ export function defaultSelectionsFromSchema(optionsSchema: string): PromptSelect
   }
 
   return parsePromptSelections(selections);
+}
+
+export function buildMockedPlanSteps(character: string): string[] {
+  return [
+    "Listen for a correct hard maths answer.",
+    `Give Super Jump to ${character}.`,
+    `Let ${character} clear one approved obstacle.`,
+    "Remove the power after it is used.",
+    "Verify existing questions still work.",
+  ];
 }

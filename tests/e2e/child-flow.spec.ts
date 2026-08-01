@@ -3,13 +3,13 @@ import { testChild } from "./fixtures";
 import { resetDatabase } from "./helpers";
 
 const expectedPrompt =
-  "When Lucas answers a hard maths question correctly, give him Super Jump for one obstacle.";
+  "When Lucas answers a hard maths question correctly, give them Super Jump for one obstacle.";
 
 const planSteps = [
   "Listen for a correct hard maths answer.",
   "Give Super Jump to Lucas.",
-  "Allow one approved obstacle.",
-  "Remove the power after use.",
+  "Let Lucas clear one approved obstacle.",
+  "Remove the power after it is used.",
   "Verify existing questions still work.",
 ];
 

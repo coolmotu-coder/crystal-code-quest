@@ -5,3 +5,6 @@ tests/**/*.db-wal
 
 # Playwright e2e state
 **/.e2e-state.json
+
+# Approved design references (exported artefacts, do not reformat)
+docs/design/stitch-approved/**/*

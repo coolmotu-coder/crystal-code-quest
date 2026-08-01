@@ -2,7 +2,7 @@
   "name": "crystal-code-quest",
   "version": "0.1.0",
   "private": true,
-  "description": "A local learning platform that teaches Linus vibe coding by building real features in The Crystal Adventure.",
+  "description": "A local learning platform that teaches children and young creators vibe coding by building real features in The Crystal Adventure.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

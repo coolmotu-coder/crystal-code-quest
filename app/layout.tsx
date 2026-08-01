@@ -4,7 +4,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Crystal Code Quest",
   description:
-    "A learning platform that helps Linus turn ideas into real features in The Crystal Adventure.",
+    "A learning platform that helps children and young creators turn ideas into real features in The Crystal Adventure.",
 };
 
 export const viewport: Viewport = {
