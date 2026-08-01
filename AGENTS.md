@@ -75,6 +75,20 @@ pnpm db:seed
 
 Stop after the complete interface milestone. The parent must test both accounts and explicitly approve the next milestone before any LLM, agent, or game-repository work begins.
 
+## Planned agent architecture
+
+The real-agent runtime is documented in `docs/crystal-code-quest-spec.md` and `docs/adr/002-resumable-agent-orchestration.md`. It is planning-only for this milestone; no agent code, provider credentials, or repository access are implemented.
+
+Key constraints:
+
+- Agent workflows are resumable, checkpointed, and provider-independent.
+- The Quest Orchestrator is deterministic state-machine software; models do not control workflow state.
+- The Crystal Guide teaches and explains but does not execute code, shell commands, or builds.
+- OpenCode Go is a development tool for building Crystal Code Quest, not a runtime dependency of the child experience.
+- Real building occurs only in an isolated copy of The Crystal Adventure repository; no direct push or deployment by the builder model.
+- Deterministic checks and independent review are required before any change becomes active.
+- No agent job, provider call, repository inspection, build, repair, or activation may begin before the required Understanding Gate for that stage has passed.
+
 ## Testing requirements
 
 - Unit tests for auth, role guards, prompt construction, and learning evidence.
