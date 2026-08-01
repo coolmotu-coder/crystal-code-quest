@@ -1,27 +1,39 @@
 import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
 import { closeDatabase, getDatabase } from "@/lib/db";
 import { runMigrations } from "@/lib/db/migrations";
 import { SCHEMA_SQL } from "@/lib/db/schema";
 
-export function createFreshDatabase(suffix: string): string {
-  const databasePath = path.resolve(process.cwd(), "tests", "unit", `test-${suffix}.db`);
+export interface FreshDatabase {
+  databasePath: string;
+  tempDir: string;
+}
 
+export function createFreshDatabase(suffix: string): FreshDatabase {
   closeDatabase();
 
-  if (fs.existsSync(databasePath)) {
-    fs.unlinkSync(databasePath);
-  }
-
-  const dir = path.dirname(databasePath);
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir, { recursive: true });
-  }
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), `crystal-code-quest-test-${suffix}-`));
+  const databasePath = path.join(tempDir, "test.db");
 
   process.env.DATABASE_PATH = databasePath;
   getDatabase();
 
-  return databasePath;
+  return { databasePath, tempDir };
+}
+
+export function cleanupFreshDatabase(tempDir: string): void {
+  closeDatabase();
+
+  const extensions = [".db", ".db-shm", ".db-wal"];
+  for (const extension of extensions) {
+    const filePath = path.join(tempDir, `test${extension}`);
+    if (fs.existsSync(filePath)) {
+      fs.unlinkSync(filePath);
+    }
+  }
+
+  fs.rmSync(tempDir, { recursive: true, force: true });
 }
 
 export function ensureExportedSchema(): string {

@@ -1,6 +1,6 @@
 // @vitest-environment node
 
-import { beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import fs from "node:fs";
 import path from "node:path";
 import { closeDatabase, getDatabase } from "@/lib/db";
@@ -8,15 +8,29 @@ import { SCHEMA_SQL } from "@/lib/db/schema";
 import {
   applyContainerMigrations,
   applyLocalMigrations,
+  cleanupFreshDatabase,
   createFreshDatabase,
   ensureExportedSchema,
   getStarterContent,
   getTableSchemaSummary,
+  type FreshDatabase,
 } from "./helpers";
 
 describe("migrations", () => {
+  let fresh: FreshDatabase;
+  let containerFresh: FreshDatabase | null = null;
+
   beforeEach(() => {
-    createFreshDatabase("migrations");
+    fresh = createFreshDatabase("migrations");
+  });
+
+  afterEach(() => {
+    closeDatabase();
+    cleanupFreshDatabase(fresh.tempDir);
+    if (containerFresh) {
+      cleanupFreshDatabase(containerFresh.tempDir);
+      containerFresh = null;
+    }
   });
 
   it("exported schema SQL matches the TypeScript source of truth", () => {
@@ -37,7 +51,7 @@ describe("migrations", () => {
 
     // Switch to a fresh database for the container migration path.
     closeDatabase();
-    createFreshDatabase("container-migrations");
+    containerFresh = createFreshDatabase("container-migrations");
     await applyContainerMigrations();
     const containerDb = getDatabase();
     const containerSchema = getTableSchemaSummary(containerDb);

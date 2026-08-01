@@ -1,12 +1,12 @@
 // @vitest-environment node
 
-import { beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { requireChildApi, requireParentApi } from "@/lib/auth/guards";
 import { hashPassword } from "@/lib/auth/password";
 import type { GuardContext } from "@/lib/auth/guards";
 import { createChildProfile, createFirstParent, createUser } from "@/lib/db/queries";
 import { seedAll } from "@/scripts/seed";
-import { createFreshDatabase } from "./helpers";
+import { cleanupFreshDatabase, createFreshDatabase, type FreshDatabase } from "./helpers";
 
 const PARENT_ID = "00000000-0000-0000-0000-000000000001";
 const CHILD_USER_ID = "00000000-0000-0000-0000-000000000002";
@@ -53,8 +53,14 @@ async function seedParentAndChild() {
 }
 
 describe("role guards", () => {
+  let fresh: FreshDatabase;
+
   beforeEach(() => {
-    createFreshDatabase("guards");
+    fresh = createFreshDatabase("guards");
+  });
+
+  afterEach(() => {
+    cleanupFreshDatabase(fresh.tempDir);
   });
 
   it("rejects a parent session from child-only routes", async () => {

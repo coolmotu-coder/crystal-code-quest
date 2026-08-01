@@ -1,14 +1,24 @@
+import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
 import { defineConfig, devices } from "@playwright/test";
+import type { E2eGlobalSetupResult } from "./tests/e2e/global-teardown";
 
-process.env.DATABASE_PATH =
-  process.env.DATABASE_PATH ?? path.resolve(process.cwd(), "tests", "e2e", "test.db");
 process.env.SESSION_SECRET =
   process.env.SESSION_SECRET ?? "test-secret-test-secret-test-secret-test-secret";
+
+const e2eTempDir = fs.mkdtempSync(path.join(os.tmpdir(), "crystal-code-quest-e2e-"));
+const e2eDatabasePath = path.join(e2eTempDir, "test.db");
+
+process.env.DATABASE_PATH = process.env.DATABASE_PATH ?? e2eDatabasePath;
+
+const state: E2eGlobalSetupResult = { tempDir: e2eTempDir, databasePath: e2eDatabasePath };
+fs.writeFileSync(path.resolve(__dirname, "tests", "e2e", ".e2e-state.json"), JSON.stringify(state));
 
 export default defineConfig({
   testDir: "./tests/e2e",
   globalSetup: "./tests/e2e/global-setup.ts",
+  globalTeardown: "./tests/e2e/global-teardown.ts",
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
