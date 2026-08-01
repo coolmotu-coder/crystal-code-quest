@@ -39,3 +39,8 @@ pnpm-debug.log*
 
 # TypeScript build cache
 *.tsbuildinfo
+
+# Generated test databases
+tests/**/*.db
+tests/**/*.db-shm
+tests/**/*.db-wal
