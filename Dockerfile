@@ -68,8 +68,9 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 # Copy the runtime migration assets.
+RUN mkdir -p /app/scripts
 COPY --from=builder --chown=nextjs:nodejs /app/scripts/migrate-startup.mjs ./migrate-startup.mjs
-COPY --from=builder --chown=nextjs:nodejs /app/scripts/schema.sql ./schema.sql
+COPY --from=builder --chown=nextjs:nodejs /app/scripts/schema.sql ./scripts/schema.sql
 
 # Ensure the complete compiled better-sqlite3 package (including the native
 # .node binary) is available in the standalone runtime.

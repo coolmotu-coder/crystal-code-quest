@@ -20,8 +20,8 @@ spec:
         fsGroup: 1001
       containers:
         - name: app
-          image: crystal-code-quest
-          imagePullPolicy: IfNotPresent
+          image: docker.io/library/crystal-code-quest:20260731-045611
+          imagePullPolicy: Never
           ports:
             - containerPort: 3000
           envFrom:
@@ -31,8 +31,8 @@ spec:
             - name: SESSION_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: crystal-code-quest
-                  key: session-secret
+                  name: crystal-code-quest-secrets
+                  key: SESSION_SECRET
           volumeMounts:
             - name: data
               mountPath: /data

@@ -59,6 +59,76 @@ export type LearningStageRow = {
   created_at: string;
 };
 
+export function countUsers(): number {
+  const db = getDatabase();
+  const row = db.prepare("SELECT COUNT(*) AS count FROM users").get() as
+    { count: number } | undefined;
+  return row?.count ?? 0;
+}
+
+export function createFirstParent(user: UserRow): { created: true } | { created: false } {
+  const db = getDatabase();
+  db.exec("BEGIN IMMEDIATE");
+  try {
+    const row = db.prepare("SELECT COUNT(*) AS count FROM users").get() as
+      { count: number } | undefined;
+    if ((row?.count ?? 0) > 0) {
+      db.exec("ROLLBACK");
+      return { created: false };
+    }
+
+    const stmt = db.prepare(
+      `
+      INSERT INTO users (id, email, role, password_hash, name, created_at, updated_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?)
+      `,
+    );
+    stmt.run(
+      user.id,
+      user.email,
+      user.role,
+      user.password_hash,
+      user.name,
+      user.created_at,
+      user.updated_at,
+    );
+
+    db.exec("COMMIT");
+    return { created: true };
+  } catch (error) {
+    db.exec("ROLLBACK");
+    throw error;
+  }
+}
+
+export function listChildrenForParent(parentUserId: string): Array<{
+  userId: string;
+  username: string;
+  profileId: string;
+  displayName: string;
+  createdAt: string;
+}> {
+  const db = getDatabase();
+  return db
+    .prepare(
+      `
+      SELECT u.id AS user_id, u.name AS username, cp.id AS profile_id, cp.display_name AS display_name, cp.created_at AS created_at
+      FROM users u
+      JOIN child_profiles cp ON cp.user_id = u.id
+      JOIN parent_child_relationships pcr ON pcr.child_user_id = u.id
+      WHERE pcr.parent_user_id = ?
+      ORDER BY cp.created_at DESC
+      `,
+    )
+    .all(parentUserId) as Array<{
+    userId: string;
+    username: string;
+    profileId: string;
+    displayName: string;
+    createdAt: string;
+  }>;
+}
+
 export function getUserByEmail(email: string): UserRow | undefined {
   const db = getDatabase();
   return db.prepare("SELECT * FROM users WHERE email = ?").get(email) as UserRow | undefined;
@@ -110,6 +180,13 @@ export function getQuestTemplateById(id: string): QuestTemplateRow | undefined {
   const db = getDatabase();
   return db.prepare("SELECT * FROM quest_templates WHERE id = ?").get(id) as
     QuestTemplateRow | undefined;
+}
+
+export function listQuestTemplates(): QuestTemplateRow[] {
+  const db = getDatabase();
+  return db
+    .prepare("SELECT * FROM quest_templates ORDER BY created_at ASC")
+    .all() as QuestTemplateRow[];
 }
 
 export function getQuestSelectionById(id: string): QuestSelectionRow | undefined {

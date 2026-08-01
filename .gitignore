@@ -26,6 +26,7 @@ test-results/
 
 # Generated schema artifact for container migrations
 scripts/schema.sql
+/schema.sql
 
 # Logs
 *.log

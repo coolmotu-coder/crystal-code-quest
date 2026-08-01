@@ -27,19 +27,8 @@ function prompt(question: string): Promise<string> {
 
 function promptHidden(question: string): Promise<string> {
   return new Promise((resolve) => {
-    const rl = readline.createInterface({
-      input: process.stdin,
-      output: process.stdout,
-    });
+    process.stdout.write(question);
 
-    rl.question(question, (answer) => {
-      rl.close();
-      // Clear the line because readline may still echo a newline.
-      process.stdout.write("\r\x1B[K");
-      resolve(answer.trim());
-    });
-
-    // Mask input by intercepting stdin data events.
     const stdin = process.stdin;
     const originalRawMode = stdin.isRaw;
     stdin.setRawMode(true);
@@ -55,8 +44,6 @@ function promptHidden(question: string): Promise<string> {
           stdin.setRawMode(originalRawMode ?? false);
           stdin.pause();
           stdin.removeListener("data", onData);
-          rl.write(value);
-          rl.close();
           process.stdout.write("\n");
           resolve(value.trim());
           break;

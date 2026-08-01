@@ -35,6 +35,10 @@ After `pnpm db:setup`, the terminal prints the account names and confirms succes
 
 Crystal Code Quest is designed for a single family running on a local home network. Authentication is local-session based, not internet-grade identity management. Keep the instance on your local network and change the default-generated credentials after first setup.
 
+### Warning: first-time setup route
+
+The `/setup` route is intended only for the private local deployment. It must not be exposed publicly in a future hosted deployment without an additional bootstrap secret or control.
+
 ## Commands
 
 | Command             | Purpose                                       |

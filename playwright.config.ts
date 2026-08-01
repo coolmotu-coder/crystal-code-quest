@@ -1,11 +1,18 @@
+import path from "node:path";
 import { defineConfig, devices } from "@playwright/test";
+
+process.env.DATABASE_PATH =
+  process.env.DATABASE_PATH ?? path.resolve(process.cwd(), "tests", "e2e", "test.db");
+process.env.SESSION_SECRET =
+  process.env.SESSION_SECRET ?? "test-secret-test-secret-test-secret-test-secret";
 
 export default defineConfig({
   testDir: "./tests/e2e",
+  globalSetup: "./tests/e2e/global-setup.ts",
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
-  workers: process.env.CI ? 1 : "auto",
+  workers: 1,
   reporter: "html",
   use: {
     baseURL: process.env.PLAYWRIGHT_BASE_URL ?? "http://localhost:3000",
@@ -43,6 +50,10 @@ export default defineConfig({
   ],
   webServer: {
     command: "pnpm build && pnpm start",
+    env: {
+      DATABASE_PATH: process.env.DATABASE_PATH,
+      SESSION_SECRET: process.env.SESSION_SECRET,
+    },
     url: "http://localhost:3000",
     reuseExistingServer: !process.env.CI,
     timeout: 120000,

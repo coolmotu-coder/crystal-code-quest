@@ -12,4 +12,4 @@ resources:
 
 images:
   - name: crystal-code-quest
-    newTag: "5f2ba9a"
+    newTag: "20260731-045611"

@@ -1,7 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { SESSION_COOKIE_NAME } from "@/lib/auth/session";
 
-const PUBLIC_PATHS = new Set(["/", "/login", "/parent/login", "/child/login", "/access-denied"]);
+const PUBLIC_PATHS = new Set([
+  "/",
+  "/login",
+  "/setup",
+  "/parent/login",
+  "/child/login",
+  "/access-denied",
+]);
 
 export async function middleware(request: NextRequest): Promise<NextResponse> {
   const { pathname } = request.nextUrl;

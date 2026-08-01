@@ -14,6 +14,8 @@ import {
   createQuestTemplate,
   createUser,
   getChildProfileById,
+  getLearningStageByKey,
+  getQuestTemplateBySlug,
   getUserById,
 } from "@/lib/db/queries";
 
@@ -38,6 +40,11 @@ const IDS = {
 export const SUPER_JUMP_SLUG = "super-jump-for-lucas";
 
 export function seedLearningStages(): void {
+  if (getLearningStageByKey("select-options")) {
+    console.log("Learning stage already exists; skipping.");
+    return;
+  }
+
   createLearningStage({
     id: IDS.learningStage,
     key: "select-options",
@@ -51,6 +58,11 @@ export function seedLearningStages(): void {
 }
 
 export function seedQuestTemplates(): void {
+  if (getQuestTemplateBySlug(SUPER_JUMP_SLUG)) {
+    console.log("Quest template already exists; skipping.");
+    return;
+  }
+
   createQuestTemplate({
     id: IDS.questTemplate,
     category: "Power",
