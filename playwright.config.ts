@@ -65,7 +65,10 @@ export default defineConfig({
       SESSION_SECRET: process.env.SESSION_SECRET,
     },
     url: "http://localhost:3000",
-    reuseExistingServer: !process.env.CI,
+    // Each Playwright invocation creates a fresh temp database. Reusing a server
+    // from a previous run would point it at the old database, so we always start
+    // a new web server here.
+    reuseExistingServer: false,
     timeout: 120000,
   },
 });

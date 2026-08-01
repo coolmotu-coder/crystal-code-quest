@@ -1,0 +1,7 @@
+# Generated test databases
+tests/**/*.db
+tests/**/*.db-shm
+tests/**/*.db-wal
+
+# Playwright e2e state
+**/.e2e-state.json

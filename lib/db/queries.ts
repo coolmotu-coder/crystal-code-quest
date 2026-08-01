@@ -594,6 +594,14 @@ export function createAchievement(record: {
   );
 }
 
+export function hasLearningEvidenceForQuest(questSelectionId: string): boolean {
+  const db = getDatabase();
+  const row = db
+    .prepare("SELECT 1 FROM learning_evidence WHERE quest_selection_id = ? LIMIT 1")
+    .get(questSelectionId) as { "1": number } | undefined;
+  return row !== undefined;
+}
+
 export function getLearningEvidenceForChild(childProfileId: string): Array<{
   id: string;
   child_profile_id: string;
@@ -636,6 +644,14 @@ export function getLearningEvidenceForQuest(questSelectionId: string): Array<{
     evidence: string;
     created_at: string;
   }>;
+}
+
+export function hasImaginationJournalEntryForQuest(questSelectionId: string): boolean {
+  const db = getDatabase();
+  const row = db
+    .prepare("SELECT 1 FROM imagination_journal_entries WHERE quest_selection_id = ? LIMIT 1")
+    .get(questSelectionId) as { "1": number } | undefined;
+  return row !== undefined;
 }
 
 export function getImaginationJournalForChild(childProfileId: string): Array<{

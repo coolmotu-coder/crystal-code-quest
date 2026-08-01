@@ -28,7 +28,7 @@ export async function resetDatabase(): Promise<void> {
   process.env.DATABASE_PATH = resolveE2eDatabasePath();
 
   closeDatabase();
-  getDatabase();
+  const db = getDatabase();
   deleteAllData();
   seedAll();
 
@@ -37,5 +37,6 @@ export async function resetDatabase(): Promise<void> {
 
   seedUsersAndProfiles(testParent.email, parentHash, testChild.username, childHash);
 
+  db.pragma("wal_checkpoint(FULL)");
   closeDatabase();
 }
