@@ -11,5 +11,5 @@ resources:
   - deployment.yaml
 
 images:
-  - name: crystal-code-quest
-    newTag: "20260731-045611"
+  - name: docker.io/library/crystal-code-quest
+    newTag: "27597ad"
