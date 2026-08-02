@@ -1,0 +1,186 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 640" role="img" aria-label="Parent Guide portrait">
+  <defs>
+    <!-- Dark radial backdrop -->
+    <radialGradient id="bgGlow" cx="50%" cy="40%" r="70%">
+      <stop offset="0%" stop-color="#1a2332"/>
+      <stop offset="55%" stop-color="#0f141c"/>
+      <stop offset="100%" stop-color="#05070a"/>
+    </radialGradient>
+
+    <!-- Teal-cyan glow around the figure -->
+    <radialGradient id="auraGlow" cx="50%" cy="42%" r="55%">
+      <stop offset="35%" stop-color="rgba(45,212,191,0.22)"/>
+      <stop offset="70%" stop-color="rgba(99,102,241,0.12)"/>
+      <stop offset="100%" stop-color="rgba(45,212,191,0)"/>
+    </radialGradient>
+
+    <!-- Skin gradient -->
+    <linearGradient id="skinGrad" x1="20%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#eacfb8"/>
+      <stop offset="50%" stop-color="#d9bfa7"/>
+      <stop offset="100%" stop-color="#c9ad94"/>
+    </linearGradient>
+
+    <!-- Hair gradient -->
+    <linearGradient id="hairGrad" x1="30%" y1="0%" x2="70%" y2="100%">
+      <stop offset="0%" stop-color="#2d3748"/>
+      <stop offset="50%" stop-color="#1a202c"/>
+      <stop offset="100%" stop-color="#11151d"/>
+    </linearGradient>
+
+    <!-- Clothing gradient -->
+    <linearGradient id="clothGrad" x1="40%" y1="0%" x2="60%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+
+    <!-- Crystal accent gradient -->
+    <linearGradient id="crystalGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#5eead4"/>
+      <stop offset="50%" stop-color="#818cf8"/>
+      <stop offset="100%" stop-color="#22d3ee"/>
+    </linearGradient>
+
+    <!-- Soft glow filter -->
+    <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="12" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Stronger crystal glow -->
+    <filter id="crystalGlow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="512" height="640" fill="url(#bgGlow)"/>
+
+  <!-- Ambient glow behind figure -->
+  <ellipse cx="256" cy="290" rx="220" ry="270" fill="url(#auraGlow)"/>
+
+  <!-- Faint tech hexagons -->
+  <g opacity="0.08" stroke="url(#crystalGrad)" stroke-width="1" fill="none">
+    <polygon points="256,120 296,143 296,190 256,213 216,190 216,143"/>
+    <polygon points="256,80 306,109 306,166 256,195 206,166 206,109"/>
+    <polygon points="256,160 276,171 276,194 256,205 236,194 236,171"/>
+  </g>
+
+  <!-- Shoulders and torso -->
+  <path d="M96 560
+           C96 480, 120 430, 170 400
+           C190 390, 220 385, 256 385
+           C292 385, 322 390, 342 400
+           C392 430, 416 480, 416 560
+           L416 640
+           L96 640
+           Z" fill="url(#clothGrad)"/>
+
+  <!-- Collar / neckline detail -->
+  <path d="M190 405
+           C215 425, 241 435, 256 435
+           C271 435, 297 425, 322 405
+           L330 415
+           C300 442, 280 452, 256 452
+           C232 452, 212 442, 182 415
+           Z" fill="#334155" opacity="0.9"/>
+
+  <!-- Tech seam lines on clothing -->
+  <g stroke="url(#crystalGrad)" stroke-width="1.5" opacity="0.35" fill="none">
+    <path d="M130 560 C130 505, 145 470, 175 450"/>
+    <path d="M382 560 C382 505, 367 470, 337 450"/>
+    <path d="M256 452 L256 640"/>
+  </g>
+
+  <!-- Crystal accent on collar -->
+  <path d="M256 440 L262 455 L256 470 L250 455 Z" fill="url(#crystalGrad)" filter="url(#crystalGlow)"/>
+
+  <!-- Neck -->
+  <path d="M220 360
+           C220 395, 230 410, 256 415
+           C282 410, 292 395, 292 360
+           L292 330
+           C292 330, 256 335, 220 330
+           Z" fill="url(#skinGrad)"/>
+
+  <!-- Ears -->
+  <ellipse cx="198" cy="292" rx="18" ry="28" fill="url(#skinGrad)"/>
+  <ellipse cx="314" cy="292" rx="18" ry="28" fill="url(#skinGrad)"/>
+
+  <!-- Face shape -->
+  <path d="M202 225
+           C202 175, 230 145, 256 145
+           C282 145, 310 175, 310 225
+           C310 275, 310 305, 292 335
+           C275 360, 265 370, 256 375
+           C247 370, 237 360, 220 335
+           C202 305, 202 275, 202 225
+           Z" fill="url(#skinGrad)"/>
+
+  <!-- Hair (back/neck) -->
+  <path d="M180 250
+           C170 290, 175 320, 190 340
+           C200 355, 210 360, 220 360
+           L292 360
+           C302 360, 312 355, 322 340
+           C337 320, 342 290, 332 250
+           C320 210, 300 150, 256 130
+           C212 150, 192 210, 180 250
+           Z" fill="url(#hairGrad)"/>
+
+  <!-- Hair (top/front) -->
+  <path d="M185 245
+           C180 200, 205 155, 256 140
+           C307 155, 332 200, 327 245
+           C325 270, 318 295, 310 305
+           L310 245
+           C310 200, 286 175, 256 175
+           C226 175, 202 200, 202 245
+           L202 305
+           C194 295, 187 270, 185 245
+           Z" fill="url(#hairGrad)"/>
+
+  <!-- Hair highlight / teal sheen -->
+  <path d="M230 160
+           C245 150, 270 150, 285 160
+           C295 170, 305 190, 308 210
+           C300 185, 280 168, 256 168
+           C232 168, 212 185, 204 210
+           C207 190, 217 170, 230 160
+           Z" fill="#5eead4" opacity="0.15"/>
+
+  <!-- Eyebrows -->
+  <path d="M220 258 C230 252, 244 252, 252 258" stroke="#2d3748" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M260 258 C268 252, 282 252, 292 258" stroke="#2d3748" stroke-width="3" fill="none" stroke-linecap="round"/>
+
+  <!-- Eyes -->
+  <ellipse cx="236" cy="270" rx="11" ry="8" fill="#1e293b"/>
+  <ellipse cx="276" cy="270" rx="11" ry="8" fill="#1e293b"/>
+  <circle cx="239" cy="268" r="2.5" fill="#ffffff" opacity="0.8"/>
+  <circle cx="279" cy="268" r="2.5" fill="#ffffff" opacity="0.8"/>
+
+  <!-- Nose -->
+  <path d="M256 282 C252 295, 250 302, 254 308 C258 312, 262 308, 260 302" stroke="#c4a488" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+
+  <!-- Gentle smile -->
+  <path d="M232 322
+           C242 332, 270 332, 280 322" stroke="#a67c52" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+
+  <!-- Subtle cheek glow -->
+  <ellipse cx="222" cy="295" rx="16" ry="10" fill="#f87171" opacity="0.08"/>
+  <ellipse cx="290" cy="295" rx="16" ry="10" fill="#f87171" opacity="0.08"/>
+
+  <!-- Side rim lighting -->
+  <ellipse cx="175" cy="290" rx="45" ry="90" fill="url(#crystalGrad)" opacity="0.06" filter="url(#softGlow)"/>
+  <ellipse cx="337" cy="290" rx="45" ry="90" fill="url(#crystalGrad)" opacity="0.06" filter="url(#softGlow)"/>
+
+  <!-- Bottom vignette -->
+  <rect width="512" height="640" fill="url(#bgGlow)" opacity="0.35" style="mix-blend-mode: multiply"/>
+</svg>
