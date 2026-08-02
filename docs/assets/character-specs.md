@@ -16,6 +16,8 @@ That image is the single source of truth for:
 - character proportions
 - overall premium educational game direction
 
+The Parent Guide rigging reference is `docs/design/characters/parent-guide-rig-reference.png`. The Rive production handoff is `docs/design/characters/parent-guide-rive-handoff.md`.
+
 ## Characters
 
 | Character | File | Role | Location |
@@ -56,7 +58,7 @@ The original documents are preserved and annotated; they are not deleted.
 
 ### Parent Guide
 
-idle, wave, explain, listen, encourage, celebrate.
+Version one: `idle`, `wave`, `speak`, `celebrate`. Future reference poses `explain`, `listen`, and `encourage` are not separate v1 animations. See `docs/design/characters/parent-guide-rive-handoff.md` for the full state machine contract.
 
 ### Crystal Builder
 
@@ -112,6 +114,8 @@ Real `.riv` files and approved `.ogg` music files will be produced and integrate
 - `docs/assets/parent-guide.md`
 - `docs/assets/crystal-builder.md`
 - `docs/design/concept-art/crystal-code-quest-master-visual-direction.png`
+- `docs/design/characters/parent-guide-rig-reference.png`
+- `docs/design/characters/parent-guide-rive-handoff.md`
 - `docs/START_INTERFACE_DEVELOPMENT.md` (updated with superseded notes)
 - `docs/crystal-code-quest-spec.md` (updated with superseded notes)
 - `AGENTS.md` (updated with superseded notes)

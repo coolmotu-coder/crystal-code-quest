@@ -1,6 +1,10 @@
 # Parent Guide — Asset Specification
 
-> **Canonical visual reference:** `docs/design/concept-art/crystal-code-quest-master-visual-direction.png`
+> **Canonical visual references:**
+> - `docs/design/concept-art/crystal-code-quest-master-visual-direction.png` — overall product visual language, dashboard integration, and colour palette.
+> - `docs/design/characters/parent-guide-rig-reference.png` — Parent Guide face, hair, clothing, crystal pendant, proportions, poses, and Rive separable layers.
+> - `docs/design/characters/parent-guide-rive-handoff.md` — production boundary for the Rive implementation.
+>
 > See also the companion `crystal-builder.md` for the approved AI builder character.
 
 ## Files
@@ -34,7 +38,7 @@ Style:
 
 Subject:
 - One adult, centered, waist-up, face and shoulders clearly visible.
-- Gender-neutral or softly maternal/paternal friendly presence.
+- Female-presenting adult mentor — warm, calm, and capable.
 - Gentle smile, calm open expression, reassuring relaxed posture.
 - Looking slightly toward the viewer.
 - Should feel like a supportive mentor helping a child learn coding.
@@ -71,16 +75,16 @@ Mood:
 
 ## Animation states (Rive)
 
-From the canonical master visual reference:
+Version one is limited to four animations. `explain`, `listen`, and `encourage` are documented as reference poses for a future version; they are not separate v1 animations.
+
+From the canonical master visual reference and the Rive handoff:
 
 1. **idle** — calm, breathing, subtle crystal glow.
 2. **wave** — friendly greeting when the panel appears.
-3. **explain** — gesturing with one hand while teaching.
-4. **listen** — attentive, open posture, encouraging nod.
-5. **encourage** — warm supportive gesture, slight smile.
-6. **celebrate** — gentle, positive reaction to learner success.
+3. **speak** — active while the guide is delivering text or captions.
+4. **celebrate** — gentle, positive reaction to learner success.
 
-Each state must loop cleanly and transition smoothly to any other state.
+Each animation must return safely to `idle`. The Rive state machine is `parent_guide_state_machine` with inputs `wave_trigger`, `speak_active`, `celebrate_trigger`, and `reduced_motion`. See `docs/design/characters/parent-guide-rive-handoff.md` for the full contract.
 
 ## Music cues
 
@@ -111,3 +115,4 @@ Played before selected spoken interactions, not on every animation.
 - The SVG is a placeholder and can be swapped with a final raster once the prompt is produced.
 - The future `.riv` file will be produced and exported from Rive; do not create empty placeholder `.riv` files.
 - Keep the same filename and path (`/parent-guide.svg`) to avoid updating component references until the Rive integration is ready.
+- The Rive production boundary, exact layer hierarchy, and accessibility requirements are documented in `docs/design/characters/parent-guide-rive-handoff.md`.
