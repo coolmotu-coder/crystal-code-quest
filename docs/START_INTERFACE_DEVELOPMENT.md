@@ -134,14 +134,14 @@ Do not create:
 
 - a generic SaaS dashboard;
 - a colourful crystal-fantasy background across Code Quest;
-- a robot guide in Code Quest;
+- a robot guide in Code Quest; *(superseded — the canonical master visual reference in `docs/design/concept-art/crystal-code-quest-master-visual-direction.png` now includes the Crystal Builder as the only approved AI builder robot in the Builder Workspace; see `docs/assets/character-specs.md`)*
 - a preschool interface;
 - fake terminal output;
 - excessive glow or looping animation.
 
 The main guide is a warm, capable, parent-like human mentor. Do not claim that the illustration is the real parent unless a real reference photo is later provided.
 
-Robots and the colourful crystal world belong inside The Crystal Adventure previews.
+Robots and the colourful crystal world belong inside The Crystal Adventure previews. *(superseded in part — the Crystal Builder is the only approved robot character and belongs in the Crystal Code Quest Builder Workspace; the colourful crystal world still belongs to The Crystal Adventure previews; see `docs/assets/character-specs.md`)*
 
 ## Implementation expectations
 

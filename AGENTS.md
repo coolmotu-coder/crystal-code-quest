@@ -62,6 +62,7 @@ pnpm db:seed
 - The database file lives in `data/` and is gitignored.
 - Design tokens live in CSS custom properties in `app/globals.css`.
 - The Parent Guide is a human, parent-like placeholder component.
+- The Crystal Builder is the only approved AI builder robot character in Crystal Code Quest; it appears only in the Builder Workspace and build-progress journey. See `docs/assets/character-specs.md` and the canonical master visual reference.
 - All build and preview states in this milestone are clearly labelled **mocked**.
 
 ## Role boundaries

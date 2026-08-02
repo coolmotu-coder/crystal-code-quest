@@ -308,7 +308,7 @@ This separation helps Linus understand:
 
 ### 6.3 Human Parent Guide
 
-Crystal Code Quest does not use a robot as the main guide.
+Crystal Code Quest does not use a robot as the main guide. *(The Parent Guide remains human. The Crystal Builder is the only approved robot character in Crystal Code Quest and appears only in the Builder Workspace and build-progress journey. See `docs/assets/character-specs.md` and the canonical master visual reference.)*
 
 The guide should appear as a:
 
@@ -325,7 +325,7 @@ The Parent Guide:
 - celebrates effort and learning;
 - never pretends that a failed build succeeded.
 
-Robots remain characters inside The Crystal Adventure.
+Robots remain characters inside The Crystal Adventure. *(The Crystal Builder is the only approved robot character in Crystal Code Quest; it appears only in the Builder Workspace and build-progress journey. See `docs/assets/character-specs.md`.)*
 
 ### 6.4 Interaction principles
 
