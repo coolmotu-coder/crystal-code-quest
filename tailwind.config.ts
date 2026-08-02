@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import colors from "tailwindcss/colors";
 
 const config: Config = {
   darkMode: "class",
@@ -18,10 +19,10 @@ const config: Config = {
         "text-primary": "var(--text-primary)",
         "text-secondary": "var(--text-secondary)",
         "text-muted": "var(--text-muted)",
-        teal: "var(--teal)",
-        cyan: "var(--cyan)",
+        teal: { ...colors.teal, DEFAULT: "var(--teal)" },
+        cyan: { ...colors.cyan, DEFAULT: "var(--cyan)" },
         mint: "var(--mint)",
-        violet: "var(--violet)",
+        violet: { ...colors.violet, DEFAULT: "var(--violet)" },
         blue: "var(--blue)",
         danger: "var(--danger)",
         warning: "var(--warning)",

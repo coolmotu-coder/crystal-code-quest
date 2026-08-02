@@ -92,11 +92,21 @@ test.describe("authenticated identity regression", () => {
     // Each child should see only their own dashboard and quest state.
     await loginAsChild(page, "maya-one", "123456");
     await expect(page.getByRole("heading", { name: /Hi Maya/i, level: 1 })).toBeVisible();
-    await expect(page.getByLabel("Current quest").getByText("No quest started yet")).toBeVisible();
+    const currentQuestPanel = page.getByRole("region", { name: "Current quest" });
+    await expect(currentQuestPanel.getByText("Ready to build your first idea?")).toBeVisible();
+    await currentQuestPanel.getByRole("link", { name: "Start a new quest" }).click();
+    await expect(page).toHaveURL("/child/quests");
+
+    const superJumpCard = page.locator("h3", { hasText: "Super Jump for Lucas" }).locator("..");
+    await superJumpCard.locator("button", { hasText: "Choose this quest" }).click();
+    await expect(page).toHaveURL(/\/child\/quests\/[^/]+$/);
 
     await loginAsChild(page, "maya-two", "654321");
     await expect(page.getByRole("heading", { name: /Hi Maya/i, level: 1 })).toBeVisible();
-    await expect(page.getByLabel("Current quest").getByText("No quest started yet")).toBeVisible();
+    const mayaTwoQuestPanel = page.getByRole("region", { name: "Current quest" });
+    await expect(mayaTwoQuestPanel.getByText("Ready to build your first idea?")).toBeVisible();
+    await expect(mayaTwoQuestPanel.getByRole("link", { name: "Start a new quest" })).toBeVisible();
+    await expect(mayaTwoQuestPanel.getByText("Super Jump for Lucas")).not.toBeVisible();
   });
 
   test("navigation uses role-specific ARIA labels", async ({ page }) => {

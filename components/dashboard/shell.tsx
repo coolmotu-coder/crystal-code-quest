@@ -20,7 +20,7 @@ export function DashboardShell({
   children,
 }: DashboardShellProps) {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen">
       <DashboardNav
         userRole={userRole}
         currentPath={currentPath}

@@ -74,6 +74,30 @@
     @apply outline-none ring-2 ring-teal ring-offset-2 ring-offset-background;
   }
 
+  /* Application background: dark base with subtle cyan/violet glows and faint grid */
+  .app-background {
+    background-color: #131313;
+    background-image:
+      radial-gradient(circle at 12% 8%, rgba(34, 211, 238, 0.1) 0%, transparent 32%),
+      radial-gradient(circle at 88% 55%, rgba(139, 92, 246, 0.1) 0%, transparent 34%),
+      linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size:
+      auto,
+      auto,
+      48px 48px,
+      48px 48px;
+    background-position:
+      center,
+      center,
+      0 0,
+      0 0;
+  }
+
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
   @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
@@ -91,15 +115,54 @@
     text-wrap: balance;
   }
 
+  .label-caps {
+    @apply text-xs font-bold uppercase tracking-widest;
+  }
+
+  /* Base glass panel — dark charcoal, subtle translucent border, soft shadow */
+  .glass-panel {
+    @apply relative overflow-hidden rounded-2xl border border-white/10 bg-slate-950/55 shadow-[0_18px_60px_rgba(0,0,0,0.32)] ring-1 ring-inset ring-white/[0.025];
+  }
+
+  /* Important accent panel — cyan/teal edge highlight for primary actions/cards */
+  .glass-panel-accent {
+    @apply border-cyan-300/15 to-cyan-950/20 ring-cyan-200/[0.04] relative overflow-hidden rounded-2xl border bg-gradient-to-br from-slate-900/75 via-slate-950/60 shadow-[0_20px_70px_rgba(0,0,0,0.38)] ring-1 ring-inset;
+  }
+
+  /* Crystal Adventure panel — violet/cyan edge for game preview areas */
+  .glass-panel-adventure {
+    @apply border-violet-300/20 via-violet-950/35 to-cyan-950/25 relative overflow-hidden rounded-2xl border bg-gradient-to-br from-slate-950/80 shadow-[0_22px_80px_rgba(76,29,149,0.18)];
+  }
+
+  /* Backdrop-blur is applied on the panel itself to contain performance cost */
+  .glass-blur {
+    @apply backdrop-blur-xl;
+  }
+
+  /* Inner shimmer highlight for glass panels */
+  .glass-shine {
+    @apply pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent;
+  }
+
+  /* Compact status chips */
+  .glass-chip {
+    @apply inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.045] px-3 py-1.5 text-xs font-medium text-slate-200 backdrop-blur-md;
+  }
+
+  .glass-chip-accent {
+    @apply border-cyan-300/15 bg-cyan-400/10 text-cyan-200 inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-medium shadow-[0_0_16px_rgba(34,211,238,0.08)] backdrop-blur-md;
+  }
+
+  .glass-chip-violet {
+    @apply border-violet-300/15 bg-violet-400/10 text-violet-200 inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-medium shadow-[0_0_16px_rgba(139,92,246,0.08)] backdrop-blur-md;
+  }
+
+  /* Legacy helpers retained for compatibility during migration */
   .panel {
-    @apply rounded-2xl border border-border bg-surface;
+    @apply glass-panel glass-blur;
   }
 
   .panel-elevated {
-    @apply rounded-2xl border border-border bg-elevated;
-  }
-
-  .label-caps {
-    @apply text-xs font-bold uppercase tracking-widest;
+    @apply glass-panel glass-blur;
   }
 }

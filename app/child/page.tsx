@@ -13,7 +13,20 @@ import {
 } from "@/lib/db/queries";
 import { DashboardShell } from "@/components/dashboard/shell";
 import { GuidePanel } from "@/components/dashboard/guide-panel";
-import { EmptyState, HexStep, Panel, StatCard, StatusBadge } from "@/components/dashboard/content";
+import {
+  CheckIcon,
+  EmptyState,
+  HexStep,
+  Panel,
+  StatCard,
+  StatusBadge,
+} from "@/components/dashboard/content";
+import {
+  ConceptIcon,
+  CrystalPreviewVisual,
+  QuestHeroVisual,
+  SparklesIcon,
+} from "@/components/dashboard/decorations";
 import { QuestStatus } from "@/lib/contracts";
 import { constructPrompt, parsePromptSelections } from "@/lib/quest/prompt";
 
@@ -28,6 +41,13 @@ const learningJourneySteps = [
   { label: "Build the feature", description: "Create the game change" },
   { label: "Test the game", description: "Make sure everything works" },
   { label: "Learn what changed", description: "Understand what happened" },
+];
+
+const starterSkills = [
+  { name: "Clear instructions", hint: "Saying exactly what should happen" },
+  { name: "Conditions", hint: "When something is true" },
+  { name: "State", hint: "What the game remembers" },
+  { name: "Testing", hint: "Checking it works" },
 ];
 
 function getStepStatus(
@@ -157,12 +177,14 @@ export default async function ChildDashboardPage() {
               <span className="font-medium text-violet">The Crystal Adventure</span>.
             </p>
           </div>
-          <div className="flex items-center gap-3">
-            <span className="rounded-full border border-border bg-elevated px-3 py-1 text-xs font-bold text-text-muted">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="glass-chip">
+              <SparklesIcon className="text-primary h-4 w-4" />
               Level {profile?.level ?? 1}
             </span>
             {currentStage ? (
-              <span className="border-primary/30 bg-primary/10 text-primary rounded-full border px-3 py-1 text-xs font-bold">
+              <span className="glass-chip-accent">
+                <CheckIcon className="h-4 w-4" />
                 {currentStage.name}
               </span>
             ) : null}
@@ -175,64 +197,88 @@ export default async function ChildDashboardPage() {
           <div className="lg:col-span-8">
             <Panel
               title="Current quest"
+              variant="accent"
               action={
                 latestQuest ? <StatusBadge status={badge.status} label={badge.label} /> : null
               }
               ariaLabelledBy="current-quest-heading"
             >
               {latestQuest ? (
-                <div className="space-y-5">
-                  <div>
-                    <p className="text-primary text-sm font-bold uppercase tracking-wider">
-                      {template?.category ?? "Quest"}
-                    </p>
-                    <h2
-                      id="current-quest-heading"
-                      className="mt-1 text-2xl font-bold text-text-primary"
-                    >
-                      {template?.name ?? "Your quest"}
-                    </h2>
-                    <p className="mt-2 max-w-xl text-sm text-text-secondary">
-                      {template?.description ?? "Check your quest to see the next step."}
-                    </p>
-                  </div>
-
-                  {constructedPrompt ? (
-                    <div className="bg-surface-container-high rounded-xl border border-border p-4">
-                      <p className="text-sm font-medium text-text-secondary">Your prompt</p>
-                      <p className="mt-1 text-base font-semibold text-text-primary">
-                        {constructedPrompt}
+                <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                  <div className="flex flex-col justify-between">
+                    <div>
+                      <div className="flex flex-wrap items-center gap-2">
+                        <p className="text-primary text-xs font-bold uppercase tracking-wider">
+                          {template?.category ?? "Quest"}
+                        </p>
+                        <span className="glass-chip text-[10px]">First quest</span>
+                      </div>
+                      <h2
+                        id="current-quest-heading"
+                        className="mt-2 text-2xl font-bold text-text-primary sm:text-3xl"
+                      >
+                        {template?.name ?? "Your quest"}
+                      </h2>
+                      <p className="mt-2 max-w-md text-sm leading-relaxed text-text-secondary">
+                        {template?.description ?? "Check your quest to see the next step."}
                       </p>
                     </div>
-                  ) : null}
 
-                  <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-                    <Link
-                      href={continueHref}
-                      className="bg-primary text-on-primary focus-visible:ring-primary inline-flex min-h-[48px] items-center justify-center gap-2 rounded-lg px-6 py-3 text-sm font-bold transition hover:brightness-110 focus-visible:ring-2"
-                    >
-                      {continueLabel}
-                      <span aria-hidden="true">→</span>
-                    </Link>
-                    {isMockedSuccess ? (
-                      <span className="text-xs text-text-muted">
-                        Practice build. No real game code was changed.
-                      </span>
+                    {constructedPrompt ? (
+                      <div className="border-cyan-300/10 to-cyan-950/10 mt-4 rounded-xl border bg-gradient-to-br from-slate-950/60 p-4">
+                        <p className="text-xs font-bold uppercase tracking-wider text-text-muted">
+                          Your prompt
+                        </p>
+                        <p className="mt-1 text-sm font-semibold leading-relaxed text-text-primary">
+                          {constructedPrompt}
+                        </p>
+                      </div>
                     ) : null}
+
+                    <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center">
+                      <Link
+                        href={continueHref}
+                        className="bg-primary text-on-primary focus-visible:ring-primary inline-flex min-h-[48px] items-center justify-center gap-2 rounded-lg px-6 py-3 text-sm font-bold shadow-[0_8px_24px_rgba(34,211,238,0.18)] transition hover:brightness-110 focus-visible:ring-2"
+                      >
+                        {continueLabel}
+                        <span aria-hidden="true">→</span>
+                      </Link>
+                      {isMockedSuccess ? (
+                        <span className="text-xs text-text-muted">
+                          Practice build. No real game code was changed.
+                        </span>
+                      ) : null}
+                    </div>
+                  </div>
+                  <div className="order-first sm:order-last">
+                    <QuestHeroVisual className="h-48 sm:h-full" />
                   </div>
                 </div>
               ) : (
-                <div className="space-y-5">
-                  <p className="text-text-secondary">
-                    No quest started yet. Your first Super Jump quest is waiting.
-                  </p>
-                  <Link
-                    href="/child/quests"
-                    className="bg-primary text-on-primary focus-visible:ring-primary inline-flex min-h-[48px] items-center justify-center gap-2 rounded-lg px-6 py-3 text-sm font-bold transition hover:brightness-110 focus-visible:ring-2"
-                  >
-                    Start a new quest
-                    <span aria-hidden="true">→</span>
-                  </Link>
+                <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                  <div className="flex flex-col justify-center">
+                    <span className="glass-chip-accent w-fit">First quest waiting</span>
+                    <h2
+                      id="current-quest-heading"
+                      className="mt-3 text-2xl font-bold text-text-primary sm:text-3xl"
+                    >
+                      Ready to build your first idea?
+                    </h2>
+                    <p className="mt-2 text-sm leading-relaxed text-text-secondary">
+                      You will start with a Super Jump quest. The Crystal Guide will help you turn a
+                      small idea into a clear request.
+                    </p>
+                    <Link
+                      href="/child/quests"
+                      className="bg-primary text-on-primary focus-visible:ring-primary mt-5 inline-flex min-h-[48px] w-fit items-center justify-center gap-2 rounded-lg px-6 py-3 text-sm font-bold shadow-[0_8px_24px_rgba(34,211,238,0.18)] transition hover:brightness-110 focus-visible:ring-2"
+                    >
+                      Start a new quest
+                      <span aria-hidden="true">→</span>
+                    </Link>
+                  </div>
+                  <div className="order-first sm:order-last">
+                    <QuestHeroVisual className="h-48 sm:h-full" />
+                  </div>
                 </div>
               )}
             </Panel>
@@ -241,7 +287,7 @@ export default async function ChildDashboardPage() {
           {/* Learning journey */}
           <div className="lg:col-span-4">
             <Panel title="Your learning journey" ariaLabelledBy="journey-heading">
-              <div className="space-y-4">
+              <div>
                 {learningJourneySteps.map((step, index) => (
                   <HexStep
                     key={step.label}
@@ -249,6 +295,7 @@ export default async function ChildDashboardPage() {
                     number={index + 1}
                     label={step.label}
                     description={step.description}
+                    isLast={index === learningJourneySteps.length - 1}
                   />
                 ))}
               </div>
@@ -258,26 +305,27 @@ export default async function ChildDashboardPage() {
           {/* Current concept */}
           <div className="lg:col-span-4">
             <Panel title="Current coding concept" ariaLabelledBy="concept-heading">
-              <div className="space-y-3">
-                <div className="flex items-center gap-3">
-                  <div className="border-primary/30 bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-lg border">
-                    <svg
-                      viewBox="0 0 20 20"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      className="h-5 w-5"
-                    >
-                      <path d="M10 2L12 7H17L13 11L14 16L10 13L6 16L7 11L3 7H8L10 2Z" />
-                    </svg>
+              <div className="border-cyan-300/10 to-cyan-950/10 rounded-xl border bg-gradient-to-br from-slate-950/60 p-4">
+                <div className="flex items-start gap-4">
+                  <div className="border-cyan-300/20 bg-cyan-400/10 text-primary flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border shadow-[0_0_20px_rgba(34,211,238,0.12)]">
+                    <ConceptIcon className="h-6 w-6" />
                   </div>
-                  <h3 className="text-lg font-bold text-text-primary">Condition</h3>
+                  <div>
+                    <h3 className="text-lg font-bold text-text-primary">Condition</h3>
+                    <p className="mt-1 text-xs text-text-muted">A rule that can be true or false</p>
+                  </div>
                 </div>
-                <p className="text-sm text-text-secondary">
-                  A condition is a rule the game checks. For Super Jump, the game asks: did{" "}
-                  {questCharacter ?? "the character"} answer a hard maths question correctly? Only
-                  then does the power turn on.
-                </p>
+                <div className="mt-4 space-y-2">
+                  <p className="text-sm text-text-secondary">
+                    <span className="text-primary font-semibold">For Super Jump:</span> the game
+                    asks, did {questCharacter ?? "the character"} answer a hard maths question
+                    correctly? Only then does the power turn on.
+                  </p>
+                  <p className="text-xs leading-relaxed text-text-muted">
+                    Why it matters: conditions let a game decide when something should happen, not
+                    every time.
+                  </p>
+                </div>
               </div>
             </Panel>
           </div>
@@ -290,18 +338,35 @@ export default async function ChildDashboardPage() {
                   {allEvidence.slice(0, 3).map((evidence) => (
                     <li
                       key={evidence.id}
-                      className="bg-surface-container-high rounded-xl border border-border p-3"
+                      className="flex items-start gap-3 rounded-xl border border-white/10 bg-white/[0.03] p-3"
                     >
-                      <p className="text-sm font-semibold text-text-primary">{evidence.skill}</p>
-                      <p className="mt-1 text-xs text-text-secondary">{evidence.evidence}</p>
+                      <span className="bg-success/15 mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-success">
+                        <CheckIcon className="h-3 w-3" />
+                      </span>
+                      <div>
+                        <p className="text-sm font-semibold text-text-primary">{evidence.skill}</p>
+                        <p className="mt-0.5 text-xs text-text-muted">{evidence.evidence}</p>
+                      </div>
                     </li>
                   ))}
                 </ul>
               ) : (
-                <EmptyState
-                  title="No skills recorded yet"
-                  description="Start a quest to build your first learning evidence."
-                />
+                <div className="space-y-4">
+                  <p className="text-sm text-text-secondary">
+                    These are the skills you will practise on your first quest.
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {starterSkills.map((skill) => (
+                      <span
+                        key={skill.name}
+                        className="glass-chip text-text-muted"
+                        title={skill.hint}
+                      >
+                        {skill.name}
+                      </span>
+                    ))}
+                  </div>
+                </div>
               )}
             </Panel>
           </div>
@@ -310,6 +375,7 @@ export default async function ChildDashboardPage() {
           <div className="lg:col-span-4">
             <GuidePanel
               title="Parent Guide"
+              name="Crystal"
               message={`Hi ${child.displayName}! I’m here to help you turn a small idea into a clear request. When you are ready, we’ll check what the AI understood before anything is built. Take your time — there is no rush.`}
               action={{ href: "/child/quests", label: "Start a quest" }}
             />
@@ -317,40 +383,37 @@ export default async function ChildDashboardPage() {
 
           {/* Crystal Adventure preview */}
           <div className="lg:col-span-8">
-            <Panel title="The Crystal Adventure preview" ariaLabelledBy="preview-heading">
-              <div className="border-violet/30 bg-surface-container-high relative overflow-hidden rounded-xl border">
-                <div
-                  className="from-violet/10 absolute inset-0 bg-gradient-to-br to-transparent"
-                  aria-hidden="true"
-                />
-                <div className="relative p-6 sm:p-8">
+            <Panel
+              title="The Crystal Adventure preview"
+              variant="adventure"
+              ariaLabelledBy="preview-heading"
+            >
+              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                <div className="flex flex-col justify-center">
                   <div className="flex items-center gap-2">
-                    <svg
-                      viewBox="0 0 20 20"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      className="h-5 w-5 text-violet"
-                      aria-hidden="true"
-                    >
-                      <path d="M10 2L12 7H17L13 11L14 16L10 13L6 16L7 11L3 7H8L10 2Z" />
-                    </svg>
-                    <span className="text-xs font-bold uppercase tracking-wider text-violet">
+                    <span className="glass-chip-violet text-[10px] font-bold uppercase tracking-wider">
                       Practice preview
                     </span>
+                    <span className="glass-chip text-[10px] text-text-muted">Mocked</span>
                   </div>
-                  <p className="mt-3 text-sm text-text-secondary">
+                  <p className="mt-3 text-sm leading-relaxed text-text-secondary">
                     When you finish a quest, the new feature will appear here so you can try it.
-                    Right now this is a mocked preview — no real game code has been changed.
+                    This is a mocked preview — no real game code has been changed.
                   </p>
                   {isMockedSuccess && constructedPrompt ? (
-                    <div className="border-violet/30 bg-violet/5 mt-4 rounded-lg border p-3">
+                    <div className="border-violet-300/15 bg-violet-400/5 mt-4 rounded-xl border p-3">
                       <p className="text-xs font-bold uppercase tracking-wider text-violet">
                         Latest feature
                       </p>
                       <p className="mt-1 text-sm text-text-secondary">{constructedPrompt}</p>
                     </div>
                   ) : null}
+                  <p className="mt-4 text-xs text-text-muted">
+                    No real game repository was changed.
+                  </p>
+                </div>
+                <div className="order-first sm:order-last">
+                  <CrystalPreviewVisual className="h-48 sm:h-full" />
                 </div>
               </div>
             </Panel>
@@ -364,7 +427,7 @@ export default async function ChildDashboardPage() {
                   <svg
                     viewBox="0 0 20 20"
                     fill="currentColor"
-                    className="h-6 w-6"
+                    className="h-7 w-7"
                     aria-hidden="true"
                   >
                     <path d="M10 2C10 2 6 6 6 10C6 12.5 7.5 15 10 15C12.5 15 14 12.5 14 10C14 6 10 2 10 2ZM10 13C8.5 13 8 11.5 8 10C8 8 9.5 5.5 10 4.5C10.5 5.5 12 8 12 10C12 11.5 11.5 13 10 13Z" />
@@ -385,7 +448,7 @@ export default async function ChildDashboardPage() {
                     fill="none"
                     stroke="currentColor"
                     strokeWidth="2"
-                    className="h-6 w-6"
+                    className="h-7 w-7"
                     aria-hidden="true"
                   >
                     <path d="M5 4H15V8C15 11 12.5 13 10 13C7.5 13 5 11 5 8V4Z" />
@@ -409,10 +472,15 @@ export default async function ChildDashboardPage() {
                   {questEvidence.slice(0, 3).map((evidence) => (
                     <li
                       key={evidence.id}
-                      className="bg-surface-container-high rounded-xl border border-border p-4"
+                      className="rounded-xl border border-white/10 bg-white/[0.03] p-4"
                     >
-                      <p className="text-sm font-semibold text-text-primary">{evidence.skill}</p>
-                      <p className="mt-1 text-xs text-text-secondary">{evidence.evidence}</p>
+                      <div className="mb-2 flex items-center gap-2">
+                        <span className="bg-success/15 flex h-5 w-5 items-center justify-center rounded-full text-success">
+                          <CheckIcon className="h-3 w-3" />
+                        </span>
+                        <p className="text-sm font-semibold text-text-primary">{evidence.skill}</p>
+                      </div>
+                      <p className="text-xs text-text-muted">{evidence.evidence}</p>
                     </li>
                   ))}
                 </ul>
@@ -420,6 +488,7 @@ export default async function ChildDashboardPage() {
                 <EmptyState
                   title="No learning evidence yet"
                   description="Finish your current quest to see what you learned recorded here."
+                  compact
                 />
               )}
             </Panel>
@@ -428,11 +497,13 @@ export default async function ChildDashboardPage() {
           {/* Reflection prompt */}
           <div className="lg:col-span-12">
             <Panel title="Think about it" ariaLabelledBy="reflection-heading">
-              <p className="text-sm text-text-secondary">
-                What would happen if {questCharacter ?? "the character"} answered an easy question
-                instead of a hard one? Talk it through with your parent or think about it before
-                your next quest.
-              </p>
+              <div className="rounded-xl border border-white/10 bg-white/[0.03] p-4">
+                <p className="text-sm text-text-secondary">
+                  What would happen if {questCharacter ?? "the character"} answered an easy question
+                  instead of a hard one? Talk it through with your parent or think about it before
+                  your next quest.
+                </p>
+              </div>
             </Panel>
           </div>
         </div>

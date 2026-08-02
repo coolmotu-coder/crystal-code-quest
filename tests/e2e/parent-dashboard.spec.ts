@@ -52,8 +52,11 @@ test.describe("parent dashboard", () => {
   });
 
   test("latest prompt is shown", async ({ page }) => {
-    await expect(page.getByText("No prompt yet")).toBeVisible();
-    await expect(page.getByText("No quest started")).toBeVisible();
+    const promptPanel = page.getByRole("region", { name: "Latest structured prompt" });
+    await expect(promptPanel.getByText("No prompt yet")).toBeVisible();
+
+    const objectivePanel = page.getByRole("region", { name: "Current objective" });
+    await expect(objectivePanel.getByText("No quest started")).toBeVisible();
   });
 
   test("latest quest status is shown", async ({ page }) => {

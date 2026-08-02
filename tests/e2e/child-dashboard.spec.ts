@@ -111,14 +111,20 @@ test.describe("child dashboard", () => {
   });
 
   test("empty states do not show invented completed data", async ({ page }) => {
+    const skillsPanel = page.getByRole("region", { name: "Skills being practised" });
     await expect(
-      page.getByLabel("Skills being practised").getByText("No skills recorded yet"),
+      skillsPanel.getByText("These are the skills you will practise on your first quest."),
     ).toBeVisible();
-    await expect(
-      page.getByLabel("Recent learning").getByText("No learning evidence yet"),
-    ).toBeVisible();
+    await expect(skillsPanel.getByText("Clear instructions")).toBeVisible();
+    await expect(skillsPanel.getByText("Identified character and action")).not.toBeVisible();
+
+    const recentLearningPanel = page.getByRole("region", { name: "Recent learning" });
+    await expect(recentLearningPanel.getByText("No learning evidence yet")).toBeVisible();
+
     const streakCard = page.getByText("Learning streak").locator("..");
     await expect(streakCard.getByText("5 days")).toBeVisible();
-    await expect(page.getByText("None yet")).toBeVisible();
+
+    const achievementCard = page.getByText("Latest achievement").locator("..");
+    await expect(achievementCard.getByText("None yet")).toBeVisible();
   });
 });

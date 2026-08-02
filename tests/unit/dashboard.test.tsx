@@ -93,9 +93,10 @@ describe("HexStep", () => {
     expect(screen.getByText("Choose an idea")).toBeInTheDocument();
   });
 
-  it("renders pending step with muted styling", () => {
+  it("renders pending step with muted styling and a lock icon", () => {
     render(<HexStep status="pending" number={3} label="Review the AI plan" />);
-    expect(screen.getByText("3")).toBeInTheDocument();
+    expect(screen.getByText("Review the AI plan")).toBeInTheDocument();
+    expect(screen.getByText("Step 3")).toBeInTheDocument();
   });
 });
 

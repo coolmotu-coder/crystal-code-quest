@@ -22,7 +22,7 @@ function Brand() {
   return (
     <Link href="/" className="flex items-center gap-2 focus-visible:ring-2 focus-visible:ring-teal">
       <div
-        className="bg-primary/10 text-primary flex h-8 w-8 items-center justify-center rounded-lg text-sm font-bold"
+        className="border-cyan-300/20 bg-cyan-400/10 text-primary flex h-8 w-8 items-center justify-center rounded-lg border text-sm font-bold shadow-[0_0_16px_rgba(34,211,238,0.12)]"
         aria-hidden="true"
       >
         CQ
@@ -44,7 +44,7 @@ function TopBar({
   const isParent = userRole === "parent";
 
   return (
-    <header className="fixed left-0 right-0 top-0 z-50 flex h-14 items-center justify-between border-b border-border bg-surface px-4 md:px-6 lg:px-8">
+    <header className="fixed left-0 right-0 top-0 z-50 flex h-14 items-center justify-between border-b border-white/10 bg-slate-950/65 px-4 shadow-[0_8px_32px_rgba(0,0,0,0.28)] backdrop-blur-xl md:px-6 lg:px-8">
       <Brand />
       <div className="flex items-center gap-3">
         {isParent ? (
@@ -53,7 +53,7 @@ function TopBar({
           </span>
         ) : null}
         {!isParent && streakDays !== undefined && streakDays > 0 ? (
-          <div className="text-primary flex items-center gap-1.5 rounded-full border border-border bg-elevated px-2.5 py-1 text-xs font-bold">
+          <div className="glass-chip-accent text-xs font-bold">
             <svg aria-hidden="true" viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4">
               <path d="M10 2C10 2 6 6 6 10C6 12.5 7.5 15 10 15C12.5 15 14 12.5 14 10C14 6 10 2 10 2ZM10 13C8.5 13 8 11.5 8 10C8 8 9.5 5.5 10 4.5C10.5 5.5 12 8 12 10C12 11.5 11.5 13 10 13Z" />
             </svg>
@@ -70,7 +70,7 @@ function TopBar({
           <form action={logout}>
             <button
               type="submit"
-              className="hover:border-primary hover:text-primary focus-visible:ring-primary rounded-lg border border-border bg-elevated px-3 py-1.5 text-xs font-medium text-text-secondary transition focus-visible:ring-2"
+              className="hover:border-primary hover:text-primary focus-visible:ring-primary rounded-lg border border-white/10 bg-white/[0.04] px-3 py-1.5 text-xs font-medium text-text-secondary transition hover:bg-white/[0.08] focus-visible:ring-2"
             >
               Sign out
             </button>
@@ -101,10 +101,10 @@ function SideNav({
 
   return (
     <nav
-      className="fixed left-0 top-14 z-40 hidden h-[calc(100vh-3.5rem)] w-64 flex-col border-r border-border bg-surface p-4 md:flex"
+      className="fixed left-0 top-14 z-40 hidden h-[calc(100vh-3.5rem)] w-64 flex-col border-r border-white/10 bg-slate-950/60 p-4 shadow-[0_8px_32px_rgba(0,0,0,0.28)] backdrop-blur-xl md:flex"
       aria-label={isParent ? "Parent navigation" : "Child navigation"}
     >
-      <div className="border-border/50 mb-6 border-b pb-4">
+      <div className="mb-6 border-b border-white/10 pb-4">
         <div className="flex items-center gap-3">
           {isParent ? (
             <ChildAvatar alt={`${displayName} profile`} className="h-10 w-10 rounded-lg" />
@@ -128,10 +128,10 @@ function SideNav({
               key={item.href + item.label}
               href={item.href}
               aria-current={isActive ? "page" : undefined}
-              className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-xs font-bold uppercase tracking-wider transition ${
+              className={`flex min-h-[44px] items-center gap-3 rounded-lg px-3 py-2.5 text-xs font-bold uppercase tracking-wider transition ${
                 isActive
                   ? "border-primary bg-primary/10 text-primary border-l-2"
-                  : "text-text-muted hover:bg-elevated hover:text-text-secondary"
+                  : "text-text-muted hover:bg-white/[0.04] hover:text-text-secondary"
               }`}
             >
               <span className="flex h-5 w-5 items-center justify-center" aria-hidden="true">
@@ -139,7 +139,7 @@ function SideNav({
               </span>
               <span className="flex-1">{item.label}</span>
               {item.planned ? (
-                <span className="rounded bg-elevated px-1.5 py-0.5 text-[10px] font-bold text-text-muted">
+                <span className="rounded border border-white/10 bg-white/[0.04] px-1.5 py-0.5 text-[10px] font-bold text-text-muted">
                   SOON
                 </span>
               ) : null}
@@ -148,8 +148,8 @@ function SideNav({
         })}
       </div>
 
-      <div className="border-border/50 mt-auto border-t pt-4">
-        <p className="text-xs text-text-muted">
+      <div className="mt-auto border-t border-white/10 pt-4">
+        <p className="text-xs leading-relaxed text-text-muted">
           {isParent
             ? "Supervisory view only. Child sign-in is separate."
             : "This is your learning space. Have fun building."}
@@ -164,7 +164,7 @@ function MobileNav({ items, currentPath }: { items: NavItem[]; currentPath: stri
 
   return (
     <nav
-      className="pb-safe fixed bottom-0 left-0 right-0 z-50 flex h-16 items-center justify-around border-t border-border bg-surface px-2 md:hidden"
+      className="pb-safe fixed bottom-0 left-0 right-0 z-50 flex h-16 items-center justify-around border-t border-white/10 bg-slate-950/75 px-2 shadow-[0_-8px_32px_rgba(0,0,0,0.28)] backdrop-blur-xl md:hidden"
       aria-label="Mobile navigation"
     >
       {visibleItems.map((item) => {
@@ -175,7 +175,9 @@ function MobileNav({ items, currentPath }: { items: NavItem[]; currentPath: stri
             href={item.href}
             aria-current={isActive ? "page" : undefined}
             className={`flex min-h-[44px] min-w-[44px] flex-col items-center justify-center gap-0.5 rounded-lg px-3 py-2 text-[10px] font-bold uppercase tracking-wider transition ${
-              isActive ? "bg-primary/10 text-primary" : "text-text-muted hover:text-text-secondary"
+              isActive
+                ? "bg-primary/10 text-primary"
+                : "text-text-muted hover:bg-white/[0.04] hover:text-text-secondary"
             }`}
           >
             <span className="flex h-5 w-5 items-center justify-center" aria-hidden="true">
