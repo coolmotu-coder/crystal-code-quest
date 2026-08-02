@@ -12,4 +12,4 @@ resources:
 
 images:
   - name: docker.io/library/crystal-code-quest
-    newTag: "27597ad"
+    newTag: "da54fc9"
